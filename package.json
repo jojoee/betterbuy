@@ -12,7 +12,11 @@
     "format:html": "prettier --write \"**/*.html\"",
     "format:html:check": "prettier --check \"**/*.html\"",
     "format:css": "prettier --write \"src/**/*.css\"",
-    "format:css:check": "prettier --check \"src/**/*.css\""
+    "format:css:check": "prettier --check \"src/**/*.css\"",
+    "format:js": "prettier --write \"**/*.{js,mjs,cjs,jsx,ts,tsx}\"",
+    "format:js:check": "prettier --check \"**/*.{js,mjs,cjs,jsx,ts,tsx}\"",
+    "format": "prettier --write \"**/*.{html,css,js,mjs,cjs,jsx,ts,tsx}\"",
+    "format:check": "prettier --check \"**/*.{html,css,js,mjs,cjs,jsx,ts,tsx}\""
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

@@ -1,4 +1,4 @@
-export type OptionName = 'A' | 'B';
+export type OptionName = "A" | "B";
 
 export interface ComparisonInput {
   costA: number;
@@ -27,13 +27,13 @@ export function compare(input: ComparisonInput): ComparisonResult | null {
     return { unitCostA, unitCostB, winner: null, savingPercent: 0 };
   }
 
-  const winner = unitCostA < unitCostB ? 'A' : 'B';
+  const winner = unitCostA < unitCostB ? "A" : "B";
   const lower = Math.min(unitCostA, unitCostB);
   const higher = Math.max(unitCostA, unitCostB);
-  const savingPercent = Number(((((higher - lower) / higher) * 100)).toFixed(10));
+  const savingPercent = Number((((higher - lower) / higher) * 100).toFixed(10));
   return { unitCostA, unitCostB, winner, savingPercent };
 }
 
 export function formatNumber(value: number, maximumFractionDigits = 4): string {
-  return new Intl.NumberFormat('en', { maximumFractionDigits }).format(value);
+  return new Intl.NumberFormat("en", { maximumFractionDigits }).format(value);
 }

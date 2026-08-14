@@ -14,6 +14,7 @@ npm run dev
 ```sh
 npm run typecheck
 npm test
+npm run test:coverage
 npm run build
 ```
 

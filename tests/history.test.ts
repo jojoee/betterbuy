@@ -3,6 +3,7 @@ import { compare } from "../src/calculator";
 import {
   HISTORY_KEY,
   HISTORY_LIMIT,
+  deleteHistory,
   readHistory,
   saveHistory,
 } from "../src/history";
@@ -50,6 +51,20 @@ describe("history", () => {
   it("recovers from malformed storage", () => {
     const storage = new MemoryStorage();
     storage.setItem(HISTORY_KEY, "{bad");
+    expect(readHistory(storage)).toEqual([]);
+  });
+  it("filters invalid entries and deletes entries by id", () => {
+    const storage = new MemoryStorage();
+    storage.setItem(
+      HISTORY_KEY,
+      JSON.stringify([
+        { id: "valid", input: {}, result: {}, savedAt: "2026-01-01" },
+        { id: 1, input: {}, result: {}, savedAt: "2026-01-01" },
+      ]),
+    );
+
+    expect(readHistory(storage)).toHaveLength(1);
+    expect(deleteHistory("valid", storage)).toEqual([]);
     expect(readHistory(storage)).toEqual([]);
   });
 });

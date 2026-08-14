@@ -6,5 +6,5 @@
   "display": "standalone",
   "background_color": "#f5f8fa",
   "theme_color": "#102a43",
-  "icons": [{ "src": "/icons/betterbuy-overlap-a.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [{ "src": "/icons/betterbuy-overlap.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
 }

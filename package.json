@@ -10,7 +10,9 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "format:html": "prettier --write \"**/*.html\"",
-    "format:html:check": "prettier --check \"**/*.html\""
+    "format:html:check": "prettier --check \"**/*.html\"",
+    "format:css": "prettier --write \"src/**/*.css\"",
+    "format:css:check": "prettier --check \"src/**/*.css\""
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

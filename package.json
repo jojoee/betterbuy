@@ -8,10 +8,13 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format:html": "prettier --write \"**/*.html\"",
+    "format:html:check": "prettier --check \"**/*.html\""
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "prettier": "^3.9.6",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"

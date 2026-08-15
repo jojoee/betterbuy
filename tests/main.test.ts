@@ -55,6 +55,30 @@ describe("browser app", () => {
     expect(document.body.textContent).toContain("A 40 / 500");
   });
 
+  it("keeps a numeric field focused across consecutive input events", () => {
+    setInput("sizeA", "1");
+    setInput("costB", "2");
+    setInput("sizeB", "1");
+
+    const costA =
+      document.querySelector<HTMLInputElement>('[data-key="costA"]');
+    if (!costA) throw new Error("Cost A input not found");
+    costA.focus();
+
+    costA.value = "2";
+    costA.dispatchEvent(new Event("input", { bubbles: true }));
+
+    expect(document.querySelector('[data-key="costA"]')).toBe(costA);
+    expect(document.activeElement).toBe(costA);
+
+    costA.value = "23";
+    costA.dispatchEvent(new Event("input", { bubbles: true }));
+
+    expect(document.querySelector('[data-key="costA"]')).toBe(costA);
+    expect(document.activeElement).toBe(costA);
+    expect(costA.value).toBe("23");
+  });
+
   it("restores and deletes saved comparisons", () => {
     setInput("costA", "1");
     setInput("sizeA", "1");

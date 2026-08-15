@@ -81,9 +81,20 @@ function historyMarkup(): string {
   return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned</h3><span>${pinned.length}/${PIN_LIMIT}</span></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${remainingCount ? `<button id="show-more-history" class="show-more">Show ${Math.min(2, remainingCount)} more</button>` : ""}`;
 }
 
+function renderComparison(): void {
+  const result = compare(values);
+  const resultContainer =
+    document.querySelector<HTMLDivElement>("#comparison-result");
+  const saveButton = document.querySelector<HTMLButtonElement>("#save");
+  if (!resultContainer || !saveButton)
+    throw new Error("Comparison controls not found");
+  resultContainer.innerHTML = resultMarkup(result);
+  saveButton.disabled = !result;
+}
+
 function render(): void {
   const result = compare(values);
-  app.innerHTML = `<main><header><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="options"><fieldset><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset><fieldset><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div>${resultMarkup(result)}<button id="save" class="save" ${result ? "" : "disabled"}>Save into history</button></section><section class="history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span>${history.length}/50</span></div>${historyMarkup()}</section></main>`;
+  app.innerHTML = `<main><header><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="options"><fieldset><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset><fieldset><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div><div id="comparison-result">${resultMarkup(result)}</div><button id="save" class="save" ${result ? "" : "disabled"}>Save into history</button></section><section class="history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span>${history.length}/50</span></div>${historyMarkup()}</section></main>`;
   for (const input of document.querySelectorAll<HTMLInputElement>(
     "[data-key]",
   )) {
@@ -91,7 +102,7 @@ function render(): void {
     input.value = Number.isFinite(values[key]) ? String(values[key]) : "";
     input.addEventListener("input", () => {
       values[key] = input.valueAsNumber;
-      render();
+      renderComparison();
     });
   }
   document

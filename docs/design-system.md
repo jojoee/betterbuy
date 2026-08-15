@@ -35,6 +35,24 @@ CSS/JS, Tailwind, or another UI dependency without an explicit product need.
 | Feedback      | Green means better/safe; red means destructive; neutral remains blue-gray.                    |
 | Accessibility | Touch controls are at least 44px; keyboard focus is visible; motion respects user preference. |
 
+### Headings
+
+Use semantic heading elements for document structure. The compact scale is
+defined by `--ds-font-size-heading-1` through `--ds-font-size-heading-6`:
+
+| Element | Size |
+| ------- | ---- |
+| `h1`    | 1.25rem |
+| `h2`    | 1.05rem |
+| `h3`    | 1rem |
+| `h4`    | 0.875rem |
+| `h5`    | 0.82rem |
+| `h6`    | 0.75rem |
+
+Choose heading levels by hierarchy, not visual preference; every level is
+smaller than the one above it. The design system resets heading margins, so
+apply spacing with the token scale in the layout that owns the heading.
+
 ## V1 component contracts
 
 | Component                                | Variants                                                 | Use                                          |

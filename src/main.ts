@@ -26,51 +26,116 @@ let values = { ...emptyInput };
 let history = readHistory();
 let isHistoryExpanded = false;
 
-const appRoot = document.querySelector<HTMLDivElement>("#app");
-if (!appRoot) throw new Error("App root not found");
-const app = appRoot;
-
-function inputField(
-  label: "Cost" | "Size",
-  option: "A" | "B",
-  key: keyof ComparisonInput,
-): string {
-  return `<label class="ds-field"><span>${label}</span><input class="ds-input" data-key="${key}" aria-label="${option} ${label}" type="number" inputmode="decimal" min="0" step="any" placeholder="0" /></label>`;
+function requiredElement<T extends Element>(selector: string): T {
+  const element = document.querySelector<T>(selector);
+  if (!element) throw new Error(`Required element not found: ${selector}`);
+  return element;
 }
 
-function resultMarkup(result: ComparisonResult | null): string {
-  if (!result)
-    return '<p class="ds-alert result-placeholder" aria-live="polite">Enter positive Cost and Size values to compare.</p>';
+const brandIcon = requiredElement<HTMLImageElement>("#brand-icon");
+const resultContainer = requiredElement<HTMLDivElement>("#comparison-result");
+const saveButton = requiredElement<HTMLButtonElement>("#save");
+const historyCount = requiredElement<HTMLSpanElement>("#history-count");
+const historyContent = requiredElement<HTMLDivElement>("#history-content");
+
+function createResult(result: ComparisonResult | null): HTMLElement {
+  if (!result) {
+    const placeholder = document.createElement("p");
+    placeholder.className = "ds-alert result-placeholder";
+    placeholder.setAttribute("aria-live", "polite");
+    placeholder.textContent = "Enter positive Cost and Size values to compare.";
+    return placeholder;
+  }
+
+  const alert = document.createElement("div");
+  alert.className = "ds-alert result";
+  if (result.winner) alert.classList.add("ds-alert--success");
+  alert.setAttribute("aria-live", "polite");
   const headline = result.winner
     ? `${result.winner} is ${formatNumber(result.savingPercent, 1)}% cheaper`
     : "A and B cost the same per size";
-  return `<div class="ds-alert result ${result.winner ? "ds-alert--success" : ""}" aria-live="polite"><strong>${headline}</strong><span>A: ${formatNumber(result.unitCostA)} per size · B: ${formatNumber(result.unitCostB)} per size</span></div>`;
+
+  const title = document.createElement("strong");
+  title.textContent = headline;
+  const detail = document.createElement("span");
+  detail.textContent = `A: ${formatNumber(result.unitCostA)} per size · B: ${formatNumber(result.unitCostB)} per size`;
+  alert.replaceChildren(title, detail);
+  return alert;
 }
 
-function historyItemMarkup(
+function createHistoryItem(
   entry: HistoryEntry,
   pinLimitReached: boolean,
-): string {
+): HTMLLIElement {
   const winner = entry.result.winner
     ? `${entry.result.winner} is ${formatNumber(entry.result.savingPercent, 1)}% cheaper`
     : "Same cost per size";
   const isPinned = Boolean(entry.pinnedAt);
-  return `<li class="ds-list-item" data-history-id="${entry.id}"><button class="ds-list-item__restore history-restore" data-restore="${entry.id}" aria-label="Restore saved comparison"><span>A ${formatNumber(entry.input.costA)} / ${formatNumber(entry.input.sizeA)} · B ${formatNumber(entry.input.costB)} / ${formatNumber(entry.input.sizeB)}</span><small>${winner}</small></button><div class="ds-list-item__actions"><button class="ds-button ds-button--subtle-success" data-pin="${entry.id}" aria-label="${isPinned ? "Unpin" : "Pin"} saved comparison" ${!isPinned && pinLimitReached ? 'disabled aria-describedby="pin-limit"' : ""}>${isPinned ? "Unpin" : "Pin"}</button><button class="ds-button ds-button--subtle-danger" data-delete="${entry.id}" aria-label="Delete saved comparison">Delete</button></div></li>`;
+
+  const restore = document.createElement("button");
+  restore.className = "ds-list-item__restore history-restore";
+  restore.dataset.restore = entry.id;
+  restore.setAttribute("aria-label", "Restore saved comparison");
+  const comparison = document.createElement("span");
+  comparison.textContent = `A ${formatNumber(entry.input.costA)} / ${formatNumber(entry.input.sizeA)} · B ${formatNumber(entry.input.costB)} / ${formatNumber(entry.input.sizeB)}`;
+  const summary = document.createElement("small");
+  summary.textContent = winner;
+  restore.replaceChildren(comparison, summary);
+
+  const pin = document.createElement("button");
+  pin.className = "ds-button ds-button--subtle-success";
+  pin.dataset.pin = entry.id;
+  pin.setAttribute(
+    "aria-label",
+    `${isPinned ? "Unpin" : "Pin"} saved comparison`,
+  );
+  pin.textContent = isPinned ? "Unpin" : "Pin";
+  if (!isPinned && pinLimitReached) {
+    pin.disabled = true;
+    pin.setAttribute("aria-describedby", "pin-limit");
+  }
+
+  const remove = document.createElement("button");
+  remove.className = "ds-button ds-button--subtle-danger";
+  remove.dataset.delete = entry.id;
+  remove.setAttribute("aria-label", "Delete saved comparison");
+  remove.textContent = "Delete";
+
+  const actions = document.createElement("div");
+  actions.className = "ds-list-item__actions";
+  actions.replaceChildren(pin, remove);
+
+  const item = document.createElement("li");
+  item.className = "ds-list-item";
+  item.dataset.historyId = entry.id;
+  item.replaceChildren(restore, actions);
+  return item;
 }
 
-function historyListMarkup(
+function createHistoryList(
   entries: HistoryEntry[],
   group: "pinned" | "unpinned",
   pinLimitReached: boolean,
-): string {
-  return `<ul class="ds-list history-list" data-history-group="${group}">${entries
-    .map((entry) => historyItemMarkup(entry, pinLimitReached))
-    .join("")}</ul>`;
+): HTMLUListElement {
+  const list = document.createElement("ul");
+  list.className = "ds-list history-list";
+  list.dataset.historyGroup = group;
+  list.replaceChildren(
+    ...entries.map((entry) => createHistoryItem(entry, pinLimitReached)),
+  );
+  return list;
 }
 
-function historyMarkup(): string {
-  if (!history.length)
-    return '<p class="ds-empty-state empty-history">No saved comparisons yet.</p>';
+function createHistoryContent(): DocumentFragment {
+  const content = document.createDocumentFragment();
+  if (!history.length) {
+    const empty = document.createElement("p");
+    empty.className = "ds-empty-state empty-history";
+    empty.textContent = "No saved comparisons yet.";
+    content.append(empty);
+    return content;
+  }
+
   const pinned = history
     .filter((entry) => entry.pinnedAt)
     .sort((a, b) => (b.pinnedAt ?? "").localeCompare(a.pinnedAt ?? ""));
@@ -78,23 +143,55 @@ function historyMarkup(): string {
   const visibleUnpinned = isHistoryExpanded ? unpinned : unpinned.slice(0, 3);
   const canToggleUnpinned = unpinned.length > 3;
   const pinLimitReached = pinned.length >= PIN_LIMIT;
-  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned (${pinned.length})</h3></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${canToggleUnpinned ? `<button id="show-more-history" class="ds-button ds-button--secondary ds-button--block show-more">${isHistoryExpanded ? "Show less" : "Show more"}</button>` : ""}`;
+  if (pinned.length) {
+    const title = document.createElement("h3");
+    title.textContent = `Pinned (${pinned.length})`;
+    const heading = document.createElement("div");
+    heading.className = "history-group-title";
+    heading.append(title);
+    const group = document.createElement("section");
+    group.className = "history-group";
+    group.replaceChildren(
+      heading,
+      createHistoryList(pinned, "pinned", pinLimitReached),
+    );
+    content.append(group);
+  }
+  if (pinLimitReached) {
+    const limit = document.createElement("p");
+    limit.id = "pin-limit";
+    limit.className = "pin-limit";
+    limit.textContent = "Unpin a saved comparison to pin another.";
+    content.append(limit);
+  }
+  if (visibleUnpinned.length)
+    content.append(
+      createHistoryList(visibleUnpinned, "unpinned", pinLimitReached),
+    );
+  if (canToggleUnpinned) {
+    const toggle = document.createElement("button");
+    toggle.id = "show-more-history";
+    toggle.className =
+      "ds-button ds-button--secondary ds-button--block show-more";
+    toggle.textContent = isHistoryExpanded ? "Show less" : "Show more";
+    content.append(toggle);
+  }
+  return content;
 }
 
 function renderComparison(): void {
   const result = compare(values);
-  const resultContainer =
-    document.querySelector<HTMLDivElement>("#comparison-result");
-  const saveButton = document.querySelector<HTMLButtonElement>("#save");
-  if (!resultContainer || !saveButton)
-    throw new Error("Comparison controls not found");
-  resultContainer.innerHTML = resultMarkup(result);
+  resultContainer.replaceChildren(createResult(result));
   saveButton.disabled = !result;
 }
 
-function render(): void {
-  const result = compare(values);
-  app.innerHTML = `<main class="container app-shell"><header class="ds-page-header"><div class="ds-page-header__identity"><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></div></header><section class="ds-card calculator" aria-labelledby="compare-title"><div class="ds-section-header"><h2 id="compare-title">Compare by cost per size</h2></div><div class="row g-3 options"><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset></div><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div></div><div id="comparison-result">${resultMarkup(result)}</div><button id="save" class="ds-button ds-button--primary ds-button--block save" ${result ? "" : "disabled"}>Save into history</button></section><section class="ds-card history" aria-labelledby="history-title"><div class="ds-section-header history-title"><h2 id="history-title">History</h2><span class="ds-badge ds-badge--neutral">${history.length}/50</span></div>${historyMarkup()}</section></main>`;
+function renderHistory(): void {
+  historyCount.textContent = `${history.length}/50`;
+  historyContent.replaceChildren(createHistoryContent());
+}
+
+function initialize(): void {
+  brandIcon.src = `${baseUrl}icons/betterbuy-overlap.svg`;
   for (const input of document.querySelectorAll<HTMLInputElement>(
     "[data-key]",
   )) {
@@ -105,57 +202,61 @@ function render(): void {
       renderComparison();
     });
   }
-  document
-    .querySelector<HTMLButtonElement>("#save")
-    ?.addEventListener("click", () => {
-      const savedResult = compare(values);
-      if (!savedResult) return;
-      history = saveHistory({
-        id: crypto.randomUUID(),
-        input: { ...values },
-        result: savedResult,
-        savedAt: new Date().toISOString(),
-      });
-      isHistoryExpanded = false;
-      render();
+  saveButton.addEventListener("click", () => {
+    const savedResult = compare(values);
+    if (!savedResult) return;
+    history = saveHistory({
+      id: crypto.randomUUID(),
+      input: { ...values },
+      result: savedResult,
+      savedAt: new Date().toISOString(),
     });
-  for (const button of document.querySelectorAll<HTMLButtonElement>(
-    "[data-delete]",
-  ))
-    button.addEventListener("click", () => {
-      history = deleteHistory(button.dataset.delete ?? "");
-      render();
-    });
-  for (const button of document.querySelectorAll<HTMLButtonElement>(
-    "[data-pin]",
-  ))
-    button.addEventListener("click", () => {
+    isHistoryExpanded = false;
+    renderHistory();
+  });
+  historyContent.addEventListener("click", (event) => {
+    const button =
+      event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>("button")
+        : null;
+    if (!button) return;
+    if (button.dataset.delete) {
+      history = deleteHistory(button.dataset.delete);
+      renderHistory();
+      return;
+    }
+    if (button.dataset.pin) {
       const entry = history.find((item) => item.id === button.dataset.pin);
       if (!entry) return;
       history = entry.pinnedAt ? unpinHistory(entry.id) : pinHistory(entry.id);
-      render();
-    });
-  document
-    .querySelector<HTMLButtonElement>("#show-more-history")
-    ?.addEventListener("click", () => {
+      renderHistory();
+      return;
+    }
+    if (button.id === "show-more-history") {
       isHistoryExpanded = !isHistoryExpanded;
-      render();
-    });
-  for (const button of document.querySelectorAll<HTMLButtonElement>(
-    "[data-restore]",
-  ))
-    button.addEventListener("click", () => {
+      renderHistory();
+      return;
+    }
+    if (button.dataset.restore) {
       const entry = history.find((item) => item.id === button.dataset.restore);
-      if (entry) {
-        values = { ...entry.input };
-        render();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+      if (!entry) return;
+      values = { ...entry.input };
+      for (const input of document.querySelectorAll<HTMLInputElement>(
+        "[data-key]",
+      )) {
+        const key = input.dataset.key as keyof ComparisonInput;
+        input.value = String(values[key]);
       }
-    });
+      renderComparison();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+  renderComparison();
+  renderHistory();
 }
 
 if ("serviceWorker" in navigator)
   window.addEventListener("load", () =>
     navigator.serviceWorker.register(`${baseUrl}sw.js`),
   );
-render();
+initialize();

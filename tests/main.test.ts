@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
 import { compare } from "../src/calculator";
 
 function setInput(key: string, value: string): void {
@@ -6,6 +7,16 @@ function setInput(key: string, value: string): void {
   if (!input) throw new Error(`Input ${key} not found`);
   input.value = value;
   input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
+function mountAppShell(): void {
+  const page = new DOMParser().parseFromString(
+    readFileSync("index.html", "utf8"),
+    "text/html",
+  );
+  const app = page.querySelector("#app");
+  if (!app) throw new Error("App shell not found in index.html");
+  document.body.replaceChildren(document.importNode(app, true));
 }
 
 async function renderApp(): Promise<void> {
@@ -24,7 +35,7 @@ function savedEntry(id: string) {
 
 describe("browser app", () => {
   beforeEach(async () => {
-    document.body.innerHTML = '<div id="app"></div>';
+    mountAppShell();
     localStorage.clear();
     vi.stubGlobal("crypto", { randomUUID: vi.fn(() => "saved-entry") });
     vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
@@ -50,7 +61,6 @@ describe("browser app", () => {
         .querySelector(".calculator h2")
         ?.parentElement?.classList.contains("ds-section-header"),
     ).toBe(true);
-    expect(document.querySelector(".history .ds-divider")).not.toBeNull();
     expect(document.querySelector(".ds-fieldset .ds-input")).not.toBeNull();
     expect(
       Array.from(document.querySelector("#save")?.classList ?? []),

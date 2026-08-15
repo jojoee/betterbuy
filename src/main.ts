@@ -15,6 +15,7 @@ import {
   type HistoryEntry,
 } from "./history";
 
+const baseUrl = import.meta.env.BASE_URL;
 const emptyInput: ComparisonInput = {
   costA: NaN,
   sizeA: NaN,
@@ -82,7 +83,7 @@ function historyMarkup(): string {
 
 function render(): void {
   const result = compare(values);
-  app.innerHTML = `<main><header><img src="/icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="options"><fieldset><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset><fieldset><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div>${resultMarkup(result)}<button id="save" class="save" ${result ? "" : "disabled"}>Save into history</button></section><section class="history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span>${history.length}/50</span></div>${historyMarkup()}</section></main>`;
+  app.innerHTML = `<main><header><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="options"><fieldset><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset><fieldset><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div>${resultMarkup(result)}<button id="save" class="save" ${result ? "" : "disabled"}>Save into history</button></section><section class="history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span>${history.length}/50</span></div>${historyMarkup()}</section></main>`;
   for (const input of document.querySelectorAll<HTMLInputElement>(
     "[data-key]",
   )) {
@@ -144,6 +145,6 @@ function render(): void {
 
 if ("serviceWorker" in navigator)
   window.addEventListener("load", () =>
-    navigator.serviceWorker.register("/sw.js"),
+    navigator.serviceWorker.register(`${baseUrl}sw.js`),
   );
 render();

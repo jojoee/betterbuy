@@ -1,3 +1,7 @@
 node_modules/
 dist/
 coverage/
+public/icons/apple-touch-icon-*.png
+public/icons/favicon.ico
+public/icons/maskable-icon-*.png
+public/icons/pwa-*.png

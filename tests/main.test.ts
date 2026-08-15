@@ -34,6 +34,7 @@ describe("browser app", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
     document.body.innerHTML = "";
   });
 
@@ -125,5 +126,22 @@ describe("browser app", () => {
       ...document.querySelectorAll<HTMLElement>("[data-history-id]"),
     ].map((item) => item.dataset.historyId);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("uses the Vite base URL for app and service-worker assets", async () => {
+    const register = vi.fn();
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: { register },
+    });
+    vi.stubEnv("BASE_URL", "/betterbuy/");
+
+    await renderApp();
+
+    expect(document.querySelector("header img")?.getAttribute("src")).toBe(
+      "/betterbuy/icons/betterbuy-overlap.svg",
+    );
+    window.dispatchEvent(new Event("load"));
+    expect(register).toHaveBeenCalledWith("/betterbuy/sw.js");
   });
 });

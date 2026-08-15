@@ -76,9 +76,9 @@ function historyMarkup(): string {
     .sort((a, b) => (b.pinnedAt ?? "").localeCompare(a.pinnedAt ?? ""));
   const unpinned = history.filter((entry) => !entry.pinnedAt);
   const visibleUnpinned = isHistoryExpanded ? unpinned : unpinned.slice(0, 3);
-  const hasHiddenUnpinned = unpinned.length > visibleUnpinned.length;
+  const canToggleUnpinned = unpinned.length > 3;
   const pinLimitReached = pinned.length >= PIN_LIMIT;
-  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned (${pinned.length})</h3></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${hasHiddenUnpinned ? `<button id="show-more-history" class="ds-button ds-button--secondary ds-button--block show-more">Show more</button>` : ""}`;
+  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned (${pinned.length})</h3></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${canToggleUnpinned ? `<button id="show-more-history" class="ds-button ds-button--secondary ds-button--block show-more">${isHistoryExpanded ? "Show less" : "Show more"}</button>` : ""}`;
 }
 
 function renderComparison(): void {
@@ -138,7 +138,7 @@ function render(): void {
   document
     .querySelector<HTMLButtonElement>("#show-more-history")
     ?.addEventListener("click", () => {
-      isHistoryExpanded = true;
+      isHistoryExpanded = !isHistoryExpanded;
       render();
     });
   for (const button of document.querySelectorAll<HTMLButtonElement>(

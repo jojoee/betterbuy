@@ -171,11 +171,21 @@ describe("browser app", () => {
     expect(
       document.querySelectorAll("[data-history-group=unpinned] li"),
     ).toHaveLength(5);
-    expect(document.querySelector("#show-more-history")).toBeNull();
+    expect(document.querySelector("#show-more-history")?.textContent).toBe(
+      "Show less",
+    );
     const ids = [
       ...document.querySelectorAll<HTMLElement>("[data-history-id]"),
     ].map((item) => item.dataset.historyId);
     expect(new Set(ids).size).toBe(ids.length);
+
+    document.querySelector<HTMLButtonElement>("#show-more-history")?.click();
+    expect(
+      document.querySelectorAll("[data-history-group=unpinned] li"),
+    ).toHaveLength(3);
+    expect(document.querySelector("#show-more-history")?.textContent).toBe(
+      "Show more",
+    );
   });
 
   it("does not show an expansion control for three or fewer recent entries", async () => {
@@ -211,7 +221,9 @@ describe("browser app", () => {
     expect(
       document.querySelectorAll("[data-history-group=unpinned] li"),
     ).toHaveLength(4);
-    expect(document.querySelector("#show-more-history")).toBeNull();
+    expect(document.querySelector("#show-more-history")?.textContent).toBe(
+      "Show less",
+    );
 
     document.querySelector<HTMLButtonElement>("#save")?.click();
 

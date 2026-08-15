@@ -81,10 +81,6 @@ h1 span {
   margin-top: var(--ds-space-2);
 }
 
-.history-divider {
-  margin-top: var(--ds-space-3);
-}
-
 .pin-limit {
   font-size: var(--ds-font-size-caption);
 }

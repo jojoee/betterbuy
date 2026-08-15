@@ -109,7 +109,7 @@ describe("browser app", () => {
     expect(document.body.textContent).toContain("No saved comparisons yet.");
   });
 
-  it("shows pins followed by unpinned history in two-row increments", async () => {
+  it("shows pinned entries before three recent entries and expands all history", async () => {
     localStorage.setItem(
       "betterbuy.history.v1",
       JSON.stringify(
@@ -131,11 +131,17 @@ describe("browser app", () => {
     expect(
       document.querySelectorAll("[data-history-group=pinned] li"),
     ).toHaveLength(5);
-    expect(document.body.textContent).not.toContain("Recent");
-    expect(document.body.textContent).not.toContain("Earlier");
+    expect(document.querySelector(".history-group-title h3")?.textContent).toBe(
+      "Pinned (5)",
+    );
+    expect(
+      [...document.querySelectorAll(".history-group-title h3")].map(
+        (heading) => heading.textContent,
+      ),
+    ).toEqual(["Pinned (5)"]);
     expect(
       document.querySelectorAll("[data-history-group=unpinned] li"),
-    ).toHaveLength(2);
+    ).toHaveLength(3);
     expect(
       document.querySelector<HTMLButtonElement>(`[data-pin="5"]`)?.disabled,
     ).toBe(true);
@@ -144,16 +150,8 @@ describe("browser app", () => {
     );
 
     expect(document.querySelector("#show-more-history")?.textContent).toBe(
-      "Show 2 more",
+      "Show more",
     );
-    document.querySelector<HTMLButtonElement>("#show-more-history")?.click();
-    expect(
-      document.querySelectorAll("[data-history-group=unpinned] li"),
-    ).toHaveLength(4);
-    expect(document.querySelector("#show-more-history")?.textContent).toBe(
-      "Show 1 more",
-    );
-
     document.querySelector<HTMLButtonElement>("#show-more-history")?.click();
     expect(
       document.querySelectorAll("[data-history-group=unpinned] li"),
@@ -163,6 +161,49 @@ describe("browser app", () => {
       ...document.querySelectorAll<HTMLElement>("[data-history-id]"),
     ].map((item) => item.dataset.historyId);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("does not show an expansion control for three or fewer recent entries", async () => {
+    localStorage.setItem(
+      "betterbuy.history.v1",
+      JSON.stringify(
+        Array.from({ length: 3 }, (_, index) => savedEntry(String(index))),
+      ),
+    );
+    await renderApp();
+
+    expect(
+      document.querySelectorAll("[data-history-group=unpinned] li"),
+    ).toHaveLength(3);
+    expect(document.querySelector("#show-more-history")).toBeNull();
+  });
+
+  it("keeps expanded history through actions and collapses after saving", async () => {
+    localStorage.setItem(
+      "betterbuy.history.v1",
+      JSON.stringify(
+        Array.from({ length: 5 }, (_, index) => savedEntry(String(index))),
+      ),
+    );
+    await renderApp();
+
+    document.querySelector<HTMLButtonElement>("#show-more-history")?.click();
+    document.querySelector<HTMLButtonElement>(`[data-pin="0"]`)?.click();
+    document.querySelector<HTMLButtonElement>(`[data-pin="0"]`)?.click();
+    document.querySelector<HTMLButtonElement>(`[data-delete="0"]`)?.click();
+    document.querySelector<HTMLButtonElement>(`[data-restore="1"]`)?.click();
+
+    expect(
+      document.querySelectorAll("[data-history-group=unpinned] li"),
+    ).toHaveLength(4);
+    expect(document.querySelector("#show-more-history")).toBeNull();
+
+    document.querySelector<HTMLButtonElement>("#save")?.click();
+
+    expect(
+      document.querySelectorAll("[data-history-group=unpinned] li"),
+    ).toHaveLength(3);
+    expect(document.querySelector("#show-more-history")).not.toBeNull();
   });
 
   it("uses the Vite base URL for app and service-worker assets", async () => {

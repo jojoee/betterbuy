@@ -34,15 +34,7 @@ header img {
   width: var(--ds-size-header-icon);
 }
 
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
-
 h1 {
-  font-size: var(--ds-font-size-xl);
   letter-spacing: -0.025em;
 }
 
@@ -51,10 +43,6 @@ h1 span {
   font-size: var(--ds-font-size-sm);
   font-weight: 500;
   letter-spacing: 0;
-}
-
-h2 {
-  font-size: var(--ds-font-size-heading);
 }
 
 .history {
@@ -90,8 +78,7 @@ h2 {
 }
 
 .empty-history,
-.pin-limit,
-.history-group-title span {
+.pin-limit {
   color: var(--ds-color-text-subtle);
 }
 
@@ -99,7 +86,6 @@ h2 {
   margin-top: var(--ds-space-4);
 }
 
-.history-group-title span,
 .pin-limit {
   font-size: var(--ds-font-size-caption);
 }

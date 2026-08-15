@@ -49,6 +49,12 @@
   --ds-font-size-heading: 1.05rem;
   --ds-font-size-caption: 0.82rem;
   --ds-font-size-display: 2rem;
+  --ds-font-size-heading-1: var(--ds-font-size-xl);
+  --ds-font-size-heading-2: var(--ds-font-size-heading);
+  --ds-font-size-heading-3: var(--ds-font-size-base);
+  --ds-font-size-heading-4: var(--ds-font-size-sm);
+  --ds-font-size-heading-5: var(--ds-font-size-caption);
+  --ds-font-size-heading-6: 0.75rem;
   --ds-size-header-icon: 2.5rem;
   --ds-size-header-min: 2.75rem;
   --ds-layout-content-max: 38.75rem;
@@ -98,6 +104,40 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--ds-font-size-heading-1);
+}
+
+h2 {
+  font-size: var(--ds-font-size-heading-2);
+}
+
+h3 {
+  font-size: var(--ds-font-size-heading-3);
+}
+
+h4 {
+  font-size: var(--ds-font-size-heading-4);
+}
+
+h5 {
+  font-size: var(--ds-font-size-heading-5);
+}
+
+h6 {
+  font-size: var(--ds-font-size-heading-6);
 }
 
 button,

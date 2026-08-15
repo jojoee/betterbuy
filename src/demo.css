@@ -44,7 +44,7 @@ body {
   margin-top: var(--ds-space-4);
 }
 
-.demo-section h2 {
+.demo-section > h2 {
   font-size: var(--ds-font-size-xl);
   margin: 0;
 }

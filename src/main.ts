@@ -24,7 +24,7 @@ const emptyInput: ComparisonInput = {
 };
 let values = { ...emptyInput };
 let history = readHistory();
-let visibleUnpinnedCount = 2;
+let isHistoryExpanded = false;
 
 const appRoot = document.querySelector<HTMLDivElement>("#app");
 if (!appRoot) throw new Error("App root not found");
@@ -75,10 +75,10 @@ function historyMarkup(): string {
     .filter((entry) => entry.pinnedAt)
     .sort((a, b) => (b.pinnedAt ?? "").localeCompare(a.pinnedAt ?? ""));
   const unpinned = history.filter((entry) => !entry.pinnedAt);
-  const visibleUnpinned = unpinned.slice(0, visibleUnpinnedCount);
-  const remainingCount = unpinned.length - visibleUnpinned.length;
+  const visibleUnpinned = isHistoryExpanded ? unpinned : unpinned.slice(0, 3);
+  const hasHiddenUnpinned = unpinned.length > visibleUnpinned.length;
   const pinLimitReached = pinned.length >= PIN_LIMIT;
-  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned</h3><span>${pinned.length}/${PIN_LIMIT}</span></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${remainingCount ? `<button id="show-more-history" class="ds-button ds-button--secondary ds-button--block show-more">Show ${Math.min(2, remainingCount)} more</button>` : ""}`;
+  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned (${pinned.length})</h3></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${hasHiddenUnpinned ? `<button id="show-more-history" class="ds-button ds-button--secondary ds-button--block show-more">Show more</button>` : ""}`;
 }
 
 function renderComparison(): void {
@@ -116,7 +116,7 @@ function render(): void {
         result: savedResult,
         savedAt: new Date().toISOString(),
       });
-      visibleUnpinnedCount = 2;
+      isHistoryExpanded = false;
       render();
     });
   for (const button of document.querySelectorAll<HTMLButtonElement>(
@@ -138,7 +138,7 @@ function render(): void {
   document
     .querySelector<HTMLButtonElement>("#show-more-history")
     ?.addEventListener("click", () => {
-      visibleUnpinnedCount += 2;
+      isHistoryExpanded = true;
       render();
     });
   for (const button of document.querySelectorAll<HTMLButtonElement>(

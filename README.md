@@ -1,6 +1,19 @@
 # Betterbuy
 
-A private, local-first PWA for comparing the cost per size of two offers.
+## Find the better deal in seconds
+
+Compare two offers by cost per comparable size and immediately see which one gives you more for your money. Betterbuy is private, local-first, and works offline.
+
+![Betterbuy showing a completed comparison where Option B is 25% cheaper](docs/images/betterbuy-iphone-17-pro.png)
+
+## Install Betterbuy on iPhone
+
+1. Open Betterbuy in Chrome on your iPhone.
+2. Tap the **Share** icon (the square with an upward arrow).
+3. Scroll down and tap **Add to Home Screen**.
+4. Optionally rename the app, then tap **Add**.
+
+Betterbuy will appear on your Home Screen and open like a native app. If **Add to Home Screen** is unavailable in Chrome, update Chrome or use Safari and follow the same steps.
 
 ## Development
 
@@ -18,7 +31,6 @@ npm run test:coverage
 npm run build
 ```
 
-Users must enter comparable sizes. Betterbuy does not convert units or collect
-data. Comparisons are explicitly saved to local browser storage, can be
-restored, pinned or unpinned (up to 5 pins), or deleted, and are capped at 50
-entries.
+## Privacy and saved comparisons
+
+Enter offers using comparable sizes—Betterbuy does not convert units or collect data. Saved comparisons stay in local browser storage, can be restored, pinned or unpinned (up to 5 pins), or deleted, and are capped at 50 entries.

@@ -5,8 +5,8 @@
 - Betterbuy compares two manually entered offers by cost per comparable size.
 - Do not add unit conversion, network/API calls, accounts, analytics, tracking,
   retailer data, or cloud sync.
-- Keep saved history local-only, explicitly user-controlled, and capped at 100
-  newest entries.
+- Keep saved history local-only, explicitly user-controlled, capped at 50
+  entries, with up to 5 pinned entries.
 
 ## Code ownership
 

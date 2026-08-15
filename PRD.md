@@ -10,7 +10,7 @@ People comparing two package prices while shopping, without an account or networ
 
 ## Product flow
 
-On one page, enter Cost and Size for A and B. Betterbuy instantly calculates each cost per size and says which is cheaper. The user may explicitly save a snapshot to local History, restore it, or delete it.
+On one page, enter Cost and Size for A and B. Betterbuy instantly calculates each cost per size and says which is cheaper. The user may explicitly save a snapshot to local History, restore it, pin or unpin it, or delete it.
 
 ## Calculation contract
 
@@ -18,12 +18,12 @@ All four inputs must be finite numbers greater than zero. Cost per size equals `
 
 ## Data and privacy
 
-History is stored only in browser `localStorage`, is manually saved, and is limited to 100 newest entries. No account, analytics, tracking, network request, retailer data, or currency data is used.
+History is stored only in browser `localStorage`, is manually saved, and is limited to 50 entries. Users may pin up to 5 entries. No account, analytics, tracking, network request, retailer data, or currency data is used.
 
 ## Non-goals
 
-Unit conversion, favourites, sharing, barcode scanning, notes, price history, alerts, retailer/delivery data, cloud sync, social features, AI, AR, voice, recommendations, APIs, and vertical-specific features are excluded.
+Unit conversion, standalone favourites beyond pinned History entries, sharing, barcode scanning, notes, price history, alerts, retailer/delivery data, cloud sync, social features, AI, AR, voice, recommendations, APIs, and vertical-specific features are excluded.
 
 ## Acceptance criteria
 
-The app is mobile usable, installable as a PWA, reloads offline after initial visit, correctly calculates wins/ties, and maintains a manually controlled, deletable, capped History.
+The app is mobile usable, installable as a PWA, reloads offline after initial visit, correctly calculates wins/ties, and maintains a manually controlled History that can be restored, pinned or unpinned, deleted, and capped at 50 entries with at most 5 pins.

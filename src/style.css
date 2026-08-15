@@ -20,15 +20,11 @@ body {
   width: 100%;
 }
 
-header {
-  align-items: center;
-  display: flex;
-  gap: var(--ds-space-3);
+.ds-page-header {
   margin: 0 0 var(--ds-space-4);
-  min-height: var(--ds-size-header-min);
 }
 
-header img {
+.ds-page-header img {
   border-radius: var(--ds-radius-lg);
   height: var(--ds-size-header-icon);
   width: var(--ds-size-header-icon);
@@ -70,7 +66,6 @@ h1 span {
   margin-top: var(--ds-space-4);
 }
 
-.history-title,
 .history-group-title {
   align-items: center;
   display: flex;
@@ -83,7 +78,11 @@ h1 span {
 }
 
 .empty-history {
-  margin-top: var(--ds-space-4);
+  margin-top: var(--ds-space-2);
+}
+
+.history-divider {
+  margin-top: var(--ds-space-3);
 }
 
 .pin-limit {

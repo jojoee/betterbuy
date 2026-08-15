@@ -42,6 +42,15 @@ describe("browser app", () => {
     expect(
       Array.from(document.querySelector(".calculator")?.classList ?? []),
     ).toContain("ds-card");
+    expect(
+      document.querySelector("header")?.classList.contains("ds-page-header"),
+    ).toBe(true);
+    expect(
+      document
+        .querySelector(".calculator h2")
+        ?.parentElement?.classList.contains("ds-section-header"),
+    ).toBe(true);
+    expect(document.querySelector(".history .ds-divider")).not.toBeNull();
     expect(document.querySelector(".ds-fieldset .ds-input")).not.toBeNull();
     expect(
       Array.from(document.querySelector("#save")?.classList ?? []),
@@ -66,6 +75,12 @@ describe("browser app", () => {
     document.querySelector<HTMLButtonElement>("#save")?.click();
     expect(document.body.textContent).toContain("1/50");
     expect(document.body.textContent).toContain("A 40 / 500");
+  });
+
+  it("uses the empty-state contract without changing empty history copy", () => {
+    const emptyHistory = document.querySelector(".empty-history");
+    expect(emptyHistory?.classList.contains("ds-empty-state")).toBe(true);
+    expect(emptyHistory?.textContent).toContain("No saved comparisons yet.");
   });
 
   it("keeps a numeric field focused across consecutive input events", () => {

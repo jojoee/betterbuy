@@ -70,7 +70,7 @@ function historyListMarkup(
 
 function historyMarkup(): string {
   if (!history.length)
-    return '<p class="empty-history">No saved comparisons yet.</p>';
+    return '<p class="ds-empty-state empty-history">No saved comparisons yet.</p>';
   const pinned = history
     .filter((entry) => entry.pinnedAt)
     .sort((a, b) => (b.pinnedAt ?? "").localeCompare(a.pinnedAt ?? ""));
@@ -94,7 +94,7 @@ function renderComparison(): void {
 
 function render(): void {
   const result = compare(values);
-  app.innerHTML = `<main class="container app-shell"><header><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="ds-card calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="row g-3 options"><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset></div><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div></div><div id="comparison-result">${resultMarkup(result)}</div><button id="save" class="ds-button ds-button--primary ds-button--block save" ${result ? "" : "disabled"}>Save into history</button></section><section class="ds-card history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span class="ds-badge ds-badge--neutral">${history.length}/50</span></div>${historyMarkup()}</section></main>`;
+  app.innerHTML = `<main class="container app-shell"><header class="ds-page-header"><div class="ds-page-header__identity"><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></div></header><section class="ds-card calculator" aria-labelledby="compare-title"><div class="ds-section-header"><h2 id="compare-title">Compare by cost per size</h2></div><div class="row g-3 options"><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset></div><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div></div><div id="comparison-result">${resultMarkup(result)}</div><button id="save" class="ds-button ds-button--primary ds-button--block save" ${result ? "" : "disabled"}>Save into history</button></section><section class="ds-card history" aria-labelledby="history-title"><div class="ds-section-header history-title"><h2 id="history-title">History</h2><span class="ds-badge ds-badge--neutral">${history.length}/50</span></div><hr class="ds-divider history-divider" />${historyMarkup()}</section></main>`;
   for (const input of document.querySelectorAll<HTMLInputElement>(
     "[data-key]",
   )) {

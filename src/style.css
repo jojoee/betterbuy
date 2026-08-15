@@ -28,19 +28,20 @@ button {
 main {
   width: min(100%, 620px);
   margin: 0 auto;
-  padding: max(24px, env(safe-area-inset-top)) 20px
+  padding: max(16px, env(safe-area-inset-top)) 20px
     calc(40px + env(safe-area-inset-bottom));
 }
 header {
   display: flex;
   gap: 12px;
   align-items: center;
-  margin: 6px 0 28px;
+  min-height: 44px;
+  margin: 0 0 18px;
 }
 header img {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
 }
 h1,
 h2,
@@ -48,12 +49,14 @@ p {
   margin: 0;
 }
 h1 {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   letter-spacing: -0.025em;
 }
-header p {
+h1 span {
   color: #52606d;
-  margin-top: 2px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 .calculator,
 .history {
@@ -156,8 +159,25 @@ input:focus {
   display: grid;
   gap: 10px;
   padding: 0;
-  margin: 16px 0 0;
+  margin: 10px 0 0;
   list-style: none;
+}
+.history-group-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h3 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.history-group-title span,
+.pin-limit {
+  color: #627d98;
+  font-size: 0.82rem;
+}
+.pin-limit {
+  margin: 12px 0 0;
 }
 .history-list li {
   display: flex;
@@ -169,6 +189,7 @@ input:focus {
 }
 .history-restore {
   min-width: 0;
+  min-height: 44px;
   flex: 1;
   border: 0;
   background: transparent;
@@ -187,15 +208,44 @@ input:focus {
   color: #26814d;
   margin-top: 3px;
 }
+.history-actions {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(2, minmax(44px, auto));
+}
+.pin,
 .delete {
   flex: 0 0 auto;
   border: 0;
   border-radius: 8px;
   margin: 2px;
-  padding: 0 10px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 0.82rem;
+}
+.pin {
+  color: #0b6b36;
+  background: #e6f9ed;
+}
+.pin:disabled {
+  cursor: not-allowed;
+  color: #627d98;
+  background: #f0f4f8;
+}
+.delete {
   color: #b42318;
   background: #fff0ef;
-  font-size: 0.82rem;
+}
+.show-more {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 16px;
+  border: 1px solid #9fb3c8;
+  border-radius: 10px;
+  color: #102a43;
+  background: #fff;
+  font-weight: 700;
 }
 @media (min-width: 560px) {
   .options {

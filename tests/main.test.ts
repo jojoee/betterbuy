@@ -39,6 +39,19 @@ describe("browser app", () => {
   });
 
   it("shows the invalid state, compares values, and saves a comparison", () => {
+    expect(
+      Array.from(document.querySelector(".calculator")?.classList ?? []),
+    ).toContain("ds-card");
+    expect(document.querySelector(".ds-fieldset .ds-input")).not.toBeNull();
+    expect(
+      Array.from(document.querySelector("#save")?.classList ?? []),
+    ).toContain("ds-button");
+    expect(
+      Array.from(document.querySelector(".options")?.classList ?? []),
+    ).toContain("row");
+    expect(document.querySelectorAll(".options .col-12.col-sm-6")).toHaveLength(
+      2,
+    );
     expect(document.querySelector<HTMLButtonElement>("#save")?.disabled).toBe(
       true,
     );

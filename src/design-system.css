@@ -1,0 +1,294 @@
+@import "bootstrap/dist/css/bootstrap-grid.min.css";
+
+/* Betterbuy design system: primitives → semantic tokens → component contracts. */
+
+:root {
+  /* Primitives */
+  --ds-blue-950: #102a43;
+  --ds-blue-800: #243b53;
+  --ds-blue-700: #334e68;
+  --ds-blue-600: #486581;
+  --ds-blue-500: #627d98;
+  --ds-blue-300: #9fb3c8;
+  --ds-blue-200: #bcccdc;
+  --ds-blue-100: #d9e2ec;
+  --ds-blue-50: #f0f4f8;
+  --ds-sky-50: #f5f8fa;
+  --ds-white: #ffffff;
+  --ds-green-800: #075e2e;
+  --ds-green-700: #0b6b36;
+  --ds-green-600: #159947;
+  --ds-green-200: #9ef0c0;
+  --ds-green-100: #dcfce7;
+  --ds-green-50: #e6f9ed;
+  --ds-red-700: #b42318;
+  --ds-red-50: #fff0ef;
+
+  --ds-space-1: 0.25rem;
+  --ds-space-0-75: 0.1875rem;
+  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;
+  --ds-space-4: 1rem;
+  --ds-space-4-5: 1.125rem;
+  --ds-space-5: 1.25rem;
+  --ds-space-6: 1.5rem;
+  --ds-space-10: 2.5rem;
+  --ds-radius-sm: 0.5rem;
+  --ds-radius-md: 0.625rem;
+  --ds-radius-lg: 0.75rem;
+  --ds-radius-xl: 0.875rem;
+  --ds-radius-2xl: 1.25rem;
+  --ds-shadow-card: 0 0.5rem 1.5rem rgb(16 42 67 / 6%);
+  --ds-font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --ds-font-size-sm: 0.875rem;
+  --ds-font-size-base: 1rem;
+  --ds-font-size-lg: 1.125rem;
+  --ds-font-size-xl: 1.25rem;
+  --ds-font-size-heading: 1.05rem;
+  --ds-font-size-caption: 0.82rem;
+  --ds-font-size-display: 2rem;
+  --ds-size-header-icon: 2.5rem;
+  --ds-size-header-min: 2.75rem;
+  --ds-layout-content-max: 38.75rem;
+  --ds-duration-fast: 150ms;
+
+  /* Semantic tokens */
+  --ds-color-page: var(--ds-sky-50);
+  --ds-color-surface: var(--ds-white);
+  --ds-color-text: var(--ds-blue-950);
+  --ds-color-text-muted: var(--ds-blue-600);
+  --ds-color-text-subtle: var(--ds-blue-500);
+  --ds-color-border: var(--ds-blue-100);
+  --ds-color-border-strong: var(--ds-blue-200);
+  --ds-color-border-input: var(--ds-blue-300);
+  --ds-color-primary: var(--ds-blue-950);
+  --ds-color-primary-hover: var(--ds-blue-800);
+  --ds-color-focus: var(--ds-green-600);
+  --ds-color-focus-ring: var(--ds-green-200);
+  --ds-color-success: var(--ds-green-800);
+  --ds-color-success-surface: var(--ds-green-100);
+  --ds-color-success-action: var(--ds-green-700);
+  --ds-color-success-action-surface: var(--ds-green-50);
+  --ds-color-danger: var(--ds-red-700);
+  --ds-color-danger-surface: var(--ds-red-50);
+
+  /* Component contracts */
+  --ds-card-background: var(--ds-color-surface);
+  --ds-card-border: var(--ds-color-border);
+  --ds-card-radius: var(--ds-radius-2xl);
+  --ds-card-padding: var(--ds-space-5);
+  --ds-card-shadow: var(--ds-shadow-card);
+  --ds-fieldset-border: var(--ds-color-border-strong);
+  --ds-fieldset-radius: var(--ds-radius-xl);
+  --ds-input-background: var(--ds-color-surface);
+  --ds-input-border: var(--ds-color-border-input);
+  --ds-input-radius: var(--ds-radius-md);
+  --ds-input-padding: var(--ds-space-3);
+  --ds-button-radius: var(--ds-radius-lg);
+  --ds-button-min-height: 3rem;
+  --ds-alert-background: var(--ds-blue-50);
+  --ds-alert-text: var(--ds-color-text-muted);
+  --ds-list-item-border: var(--ds-color-border);
+  --ds-list-item-radius: var(--ds-radius-lg);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.ds-button,
+.ds-input {
+  transition:
+    background-color var(--ds-duration-fast) ease-in-out,
+    border-color var(--ds-duration-fast) ease-in-out,
+    color var(--ds-duration-fast) ease-in-out,
+    box-shadow var(--ds-duration-fast) ease-in-out;
+}
+
+.ds-button:focus-visible,
+.ds-input:focus-visible,
+.ds-list-item__restore:focus-visible {
+  outline: 3px solid var(--ds-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-card {
+  background: var(--ds-card-background);
+  border: 1px solid var(--ds-card-border);
+  border-radius: var(--ds-card-radius);
+  box-shadow: var(--ds-card-shadow);
+  padding: var(--ds-card-padding);
+}
+
+.ds-fieldset {
+  border: 1px solid var(--ds-fieldset-border);
+  border-radius: var(--ds-fieldset-radius);
+  margin: 0;
+  padding: var(--ds-space-3);
+}
+
+.ds-fieldset:focus-within {
+  border-color: var(--ds-color-focus);
+}
+
+.ds-fieldset legend {
+  font-weight: 700;
+  padding: 0 var(--ds-space-2);
+}
+
+.ds-field {
+  align-items: center;
+  color: var(--ds-color-text-muted);
+  display: grid;
+  gap: var(--ds-space-2);
+  grid-template-columns: 3.375rem 1fr;
+  margin-top: var(--ds-space-2);
+}
+
+.ds-input {
+  background: var(--ds-input-background);
+  border: 1px solid var(--ds-input-border);
+  border-radius: var(--ds-input-radius);
+  color: var(--ds-color-text);
+  font-weight: 650;
+  min-width: 0;
+  padding: var(--ds-input-padding);
+  width: 100%;
+}
+
+.ds-input:focus {
+  border-color: var(--ds-color-focus);
+}
+
+.ds-button {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--ds-button-radius);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 750;
+  justify-content: center;
+  min-height: var(--ds-button-min-height);
+  padding: var(--ds-space-2) var(--ds-space-4);
+}
+
+.ds-button--block {
+  width: 100%;
+}
+
+.ds-button--primary {
+  background: var(--ds-color-primary);
+  color: var(--ds-white);
+}
+
+.ds-button--primary:not(:disabled):hover {
+  background: var(--ds-color-primary-hover);
+}
+
+.ds-button--secondary {
+  background: var(--ds-color-surface);
+  border-color: var(--ds-color-border-input);
+  color: var(--ds-color-text);
+}
+
+.ds-button--secondary:not(:disabled):hover {
+  border-color: var(--ds-color-focus);
+}
+
+.ds-button--subtle-success {
+  background: var(--ds-color-success-action-surface);
+  color: var(--ds-color-success-action);
+}
+
+.ds-button--subtle-danger {
+  background: var(--ds-color-danger-surface);
+  color: var(--ds-color-danger);
+}
+
+.ds-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.ds-alert {
+  background: var(--ds-alert-background);
+  border-radius: var(--ds-radius-xl);
+  color: var(--ds-alert-text);
+  display: grid;
+  gap: var(--ds-space-1);
+  min-height: 4.25rem;
+  padding: var(--ds-space-3);
+}
+
+.ds-alert--success {
+  background: var(--ds-color-success-surface);
+  color: var(--ds-color-success);
+}
+
+.ds-badge {
+  border-radius: var(--ds-radius-sm);
+  display: inline-flex;
+  font-size: var(--ds-font-size-sm);
+  font-weight: 700;
+  padding: var(--ds-space-1) var(--ds-space-2);
+}
+
+.ds-badge--neutral {
+  background: var(--ds-blue-50);
+  color: var(--ds-color-text-muted);
+}
+
+.ds-badge--success {
+  background: var(--ds-color-success-action-surface);
+  color: var(--ds-color-success-action);
+}
+
+.ds-list {
+  display: grid;
+  gap: var(--ds-space-2);
+  list-style: none;
+  margin: var(--ds-space-2) 0 0;
+  padding: 0;
+}
+
+.ds-list-item {
+  align-items: stretch;
+  border: 1px solid var(--ds-list-item-border);
+  border-radius: var(--ds-list-item-radius);
+  display: flex;
+  gap: var(--ds-space-2);
+  padding: var(--ds-space-1);
+}
+
+.ds-list-item__restore {
+  background: transparent;
+  border: 0;
+  color: var(--ds-color-text);
+  flex: 1;
+  min-height: var(--ds-size-header-min);
+  min-width: 0;
+  padding: var(--ds-space-2) var(--ds-space-3);
+  text-align: left;
+}
+
+.ds-list-item__actions {
+  display: grid;
+  gap: var(--ds-space-1);
+  grid-template-columns: repeat(2, minmax(2.75rem, auto));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-button,
+  .ds-input {
+    transition: none;
+  }
+}

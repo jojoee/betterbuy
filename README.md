@@ -22,6 +22,12 @@ npm install
 npm run dev
 ```
 
+## Design system preview
+
+The calculator uses the shared production CSS design system. While the dev
+server is running, open `/demo.html` to view its local component catalog. The
+catalog and calculator use locally bundled Bootstrap Grid for layout only.
+
 ## Checks
 
 ```sh

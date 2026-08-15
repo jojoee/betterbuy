@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Betterbuy design system</title>
+    <link rel="stylesheet" href="/src/demo.css" />
+  </head>
+  <body>
+    <main class="container demo-shell">
+      <header class="demo-header">
+        <h1 class="demo-title">Betterbuy design system</h1>
+        <p>A calm, factual visual language for choosing the better deal.</p>
+      </header>
+
+      <section class="demo-section" aria-labelledby="foundations-title">
+        <h2 id="foundations-title">Foundations</h2>
+        <p>Semantic colors communicate purpose, not decoration.</p>
+        <div class="row g-3 demo-grid">
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="demo-swatch demo-swatch--page">
+              <div class="demo-swatch-color"></div>
+              <div class="demo-swatch-label">Page</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="demo-swatch demo-swatch--surface">
+              <div class="demo-swatch-color"></div>
+              <div class="demo-swatch-label">Surface</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="demo-swatch demo-swatch--primary">
+              <div class="demo-swatch-color"></div>
+              <div class="demo-swatch-label">Primary action</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="demo-swatch demo-swatch--success">
+              <div class="demo-swatch-color"></div>
+              <div class="demo-swatch-label">Better value</div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="demo-swatch demo-swatch--danger">
+              <div class="demo-swatch-color"></div>
+              <div class="demo-swatch-label">Destructive action</div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-stack">
+          <div class="demo-type-display">Find the better deal</div>
+          <div class="demo-type-body">
+            Clear, direct copy keeps a calculation easy to scan.
+          </div>
+          <div class="demo-type-small">
+            Small supporting text uses the muted text role.
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="buttons-title">
+        <h2 id="buttons-title">Buttons and badges</h2>
+        <p>One primary action per task; use color sparingly for meaning.</p>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-2 demo-grid">
+          <div class="col">
+            <button class="ds-button ds-button--primary ds-button--block">
+              Save comparison
+            </button>
+          </div>
+          <div class="col">
+            <button class="ds-button ds-button--secondary ds-button--block">
+              Show more
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="ds-button ds-button--subtle-success ds-button--block"
+            >
+              Pin
+            </button>
+          </div>
+          <div class="col">
+            <button class="ds-button ds-button--subtle-danger ds-button--block">
+              Delete
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="ds-button ds-button--primary ds-button--block"
+              disabled
+            >
+              Disabled
+            </button>
+          </div>
+        </div>
+        <div class="demo-row">
+          <span class="ds-badge ds-badge--neutral">12 / 50 saved</span>
+          <span class="ds-badge ds-badge--success">Better value</span>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="form-title">
+        <h2 id="form-title">Field and input</h2>
+        <p>
+          Labels remain visible; inputs have a clear keyboard-focus treatment.
+        </p>
+        <div class="row g-3 demo-grid">
+          <div class="col-12 col-md-6">
+            <fieldset class="ds-fieldset">
+              <legend>Option A</legend>
+              <label class="ds-field"
+                ><span>Cost</span
+                ><input
+                  class="ds-input"
+                  inputmode="decimal"
+                  placeholder="0"
+                  type="number"
+              /></label>
+              <label class="ds-field"
+                ><span>Size</span
+                ><input
+                  class="ds-input"
+                  inputmode="decimal"
+                  placeholder="0"
+                  type="number"
+              /></label>
+            </fieldset>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="feedback-title">
+        <h2 id="feedback-title">Cards and results</h2>
+        <p>
+          Neutral guidance becomes green only when a comparison has a winner.
+        </p>
+        <div class="row g-3 demo-grid">
+          <div class="col-12 col-lg-4">
+            <article class="ds-card">
+              <strong>Compare by cost per size</strong>
+              <p>Cards contain one focused task.</p>
+            </article>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="ds-alert">
+              <strong>Enter positive Cost and Size values to compare.</strong>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="ds-alert ds-alert--success">
+              <strong>Option B is 12.5% cheaper</strong
+              ><span>A: 0.08 per size · B: 0.07 per size</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="history-title">
+        <h2 id="history-title">History item</h2>
+        <p>
+          Saved comparisons keep restoration and destructive actions distinct.
+        </p>
+        <ul class="ds-list">
+          <li class="ds-list-item">
+            <button
+              class="ds-list-item__restore demo-list-copy"
+              aria-label="Restore saved comparison"
+            >
+              <span>A 40 / 500 · B 70 / 1000</span
+              ><small>B is 12.5% cheaper</small>
+            </button>
+            <div class="ds-list-item__actions">
+              <button class="ds-button ds-button--subtle-success">Pin</button>
+              <button class="ds-button ds-button--subtle-danger">Delete</button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

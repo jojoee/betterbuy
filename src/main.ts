@@ -35,16 +35,16 @@ function inputField(
   option: "A" | "B",
   key: keyof ComparisonInput,
 ): string {
-  return `<label><span>${label}</span><input data-key="${key}" aria-label="${option} ${label}" type="number" inputmode="decimal" min="0" step="any" placeholder="0" /></label>`;
+  return `<label class="ds-field"><span>${label}</span><input class="ds-input" data-key="${key}" aria-label="${option} ${label}" type="number" inputmode="decimal" min="0" step="any" placeholder="0" /></label>`;
 }
 
 function resultMarkup(result: ComparisonResult | null): string {
   if (!result)
-    return '<p class="result-placeholder" aria-live="polite">Enter positive Cost and Size values to compare.</p>';
+    return '<p class="ds-alert result-placeholder" aria-live="polite">Enter positive Cost and Size values to compare.</p>';
   const headline = result.winner
     ? `${result.winner} is ${formatNumber(result.savingPercent, 1)}% cheaper`
     : "A and B cost the same per size";
-  return `<div class="result ${result.winner ? "has-winner" : ""}" aria-live="polite"><strong>${headline}</strong><span>A: ${formatNumber(result.unitCostA)} per size · B: ${formatNumber(result.unitCostB)} per size</span></div>`;
+  return `<div class="ds-alert result ${result.winner ? "ds-alert--success" : ""}" aria-live="polite"><strong>${headline}</strong><span>A: ${formatNumber(result.unitCostA)} per size · B: ${formatNumber(result.unitCostB)} per size</span></div>`;
 }
 
 function historyItemMarkup(
@@ -55,7 +55,7 @@ function historyItemMarkup(
     ? `${entry.result.winner} is ${formatNumber(entry.result.savingPercent, 1)}% cheaper`
     : "Same cost per size";
   const isPinned = Boolean(entry.pinnedAt);
-  return `<li data-history-id="${entry.id}"><button class="history-restore" data-restore="${entry.id}" aria-label="Restore saved comparison"><span>A ${formatNumber(entry.input.costA)} / ${formatNumber(entry.input.sizeA)} · B ${formatNumber(entry.input.costB)} / ${formatNumber(entry.input.sizeB)}</span><small>${winner}</small></button><div class="history-actions"><button class="pin" data-pin="${entry.id}" aria-label="${isPinned ? "Unpin" : "Pin"} saved comparison" ${!isPinned && pinLimitReached ? 'disabled aria-describedby="pin-limit"' : ""}>${isPinned ? "Unpin" : "Pin"}</button><button class="delete" data-delete="${entry.id}" aria-label="Delete saved comparison">Delete</button></div></li>`;
+  return `<li class="ds-list-item" data-history-id="${entry.id}"><button class="ds-list-item__restore history-restore" data-restore="${entry.id}" aria-label="Restore saved comparison"><span>A ${formatNumber(entry.input.costA)} / ${formatNumber(entry.input.sizeA)} · B ${formatNumber(entry.input.costB)} / ${formatNumber(entry.input.sizeB)}</span><small>${winner}</small></button><div class="ds-list-item__actions"><button class="ds-button ds-button--subtle-success" data-pin="${entry.id}" aria-label="${isPinned ? "Unpin" : "Pin"} saved comparison" ${!isPinned && pinLimitReached ? 'disabled aria-describedby="pin-limit"' : ""}>${isPinned ? "Unpin" : "Pin"}</button><button class="ds-button ds-button--subtle-danger" data-delete="${entry.id}" aria-label="Delete saved comparison">Delete</button></div></li>`;
 }
 
 function historyListMarkup(
@@ -63,7 +63,7 @@ function historyListMarkup(
   group: "pinned" | "unpinned",
   pinLimitReached: boolean,
 ): string {
-  return `<ul class="history-list" data-history-group="${group}">${entries
+  return `<ul class="ds-list history-list" data-history-group="${group}">${entries
     .map((entry) => historyItemMarkup(entry, pinLimitReached))
     .join("")}</ul>`;
 }
@@ -78,7 +78,7 @@ function historyMarkup(): string {
   const visibleUnpinned = unpinned.slice(0, visibleUnpinnedCount);
   const remainingCount = unpinned.length - visibleUnpinned.length;
   const pinLimitReached = pinned.length >= PIN_LIMIT;
-  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned</h3><span>${pinned.length}/${PIN_LIMIT}</span></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${remainingCount ? `<button id="show-more-history" class="show-more">Show ${Math.min(2, remainingCount)} more</button>` : ""}`;
+  return `${pinned.length ? `<section class="history-group"><div class="history-group-title"><h3>Pinned</h3><span>${pinned.length}/${PIN_LIMIT}</span></div>${historyListMarkup(pinned, "pinned", pinLimitReached)}</section>` : ""}${pinLimitReached ? `<p id="pin-limit" class="pin-limit">Unpin a saved comparison to pin another.</p>` : ""}${visibleUnpinned.length ? historyListMarkup(visibleUnpinned, "unpinned", pinLimitReached) : ""}${remainingCount ? `<button id="show-more-history" class="ds-button ds-button--secondary ds-button--block show-more">Show ${Math.min(2, remainingCount)} more</button>` : ""}`;
 }
 
 function renderComparison(): void {
@@ -94,7 +94,7 @@ function renderComparison(): void {
 
 function render(): void {
   const result = compare(values);
-  app.innerHTML = `<main><header><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="options"><fieldset><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset><fieldset><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div><div id="comparison-result">${resultMarkup(result)}</div><button id="save" class="save" ${result ? "" : "disabled"}>Save into history</button></section><section class="history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span>${history.length}/50</span></div>${historyMarkup()}</section></main>`;
+  app.innerHTML = `<main class="container app-shell"><header><img src="${baseUrl}icons/betterbuy-overlap.svg" alt="" /><h1>Betterbuy <span>· Find the better deal</span></h1></header><section class="ds-card calculator" aria-labelledby="compare-title"><h2 id="compare-title">Compare by cost per size</h2><div class="row g-3 options"><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option A</legend>${inputField("Cost", "A", "costA")}${inputField("Size", "A", "sizeA")}</fieldset></div><div class="col-12 col-sm-6"><fieldset class="ds-fieldset"><legend>Option B</legend>${inputField("Cost", "B", "costB")}${inputField("Size", "B", "sizeB")}</fieldset></div></div><div id="comparison-result">${resultMarkup(result)}</div><button id="save" class="ds-button ds-button--primary ds-button--block save" ${result ? "" : "disabled"}>Save into history</button></section><section class="ds-card history" aria-labelledby="history-title"><div class="history-title"><h2 id="history-title">History</h2><span class="ds-badge ds-badge--neutral">${history.length}/50</span></div>${historyMarkup()}</section></main>`;
   for (const input of document.querySelectorAll<HTMLInputElement>(
     "[data-key]",
   )) {

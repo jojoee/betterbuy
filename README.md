@@ -4,7 +4,7 @@
 
 Compare two offers by cost per comparable size and immediately see which one gives you more for your money. Betterbuy is private, local-first, and works offline.
 
-![Betterbuy showing a completed comparison where Option B is 25% cheaper](docs/images/betterbuy-iphone-17-pro.png)
+![Betterbuy showing a completed comparison with a pinned saved deal and recent history](docs/images/betterbuy-iphone-17-pro.png)
 
 ## Install Betterbuy on iPhone
 

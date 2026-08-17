@@ -22,6 +22,10 @@ npm install
 npm run dev
 ```
 
+The app uses React with a small Zustand reducer store. Development builds name
+each state action in Redux DevTools so developers can inspect and rewind
+in-memory state; rewinding does not modify saved browser history.
+
 ## Design system preview
 
 The calculator uses the shared production CSS design system. While the dev
@@ -35,6 +39,7 @@ npm run typecheck
 npm test
 npm run test:coverage
 npm run build
+npm run test:e2e
 ```
 
 ## Privacy and saved comparisons

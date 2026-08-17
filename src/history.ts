@@ -39,6 +39,19 @@ export function saveHistory(
   return next;
 }
 
+/** Normalize entries without reading or writing browser storage. */
+export function normalizeHistory(entries: HistoryEntry[]): HistoryEntry[] {
+  return limitHistory(entries);
+}
+
+/** Persist a history snapshot produced by the application store. */
+export function writeHistory(
+  entries: HistoryEntry[],
+  storage: Storage = localStorage,
+): void {
+  storage.setItem(HISTORY_KEY, JSON.stringify(limitHistory(entries)));
+}
+
 export function deleteHistory(
   id: string,
   storage: Storage = localStorage,

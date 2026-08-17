@@ -253,59 +253,9 @@
           Tooltips supplement visible labels; overlays are catalog-only until a
           product flow needs one.
         </p>
-        <div class="ds-cluster demo-overlays">
-          <span class="demo-tooltip-wrap"
-            ><button
-              class="ds-button ds-button--secondary"
-              data-demo-tooltip-trigger
-              aria-describedby="demo-tooltip"
-            >
-              Why local?
-              <svg class="ds-icon" aria-hidden="true" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M12 10v6m0-9h.01" />
-              </svg></button
-            ><span
-              class="ds-tooltip"
-              data-demo-tooltip
-              id="demo-tooltip"
-              role="tooltip"
-              hidden
-              >Saved comparisons stay in this browser.</span
-            ></span
-          >
-          <button class="ds-button ds-button--primary" data-demo-dialog-open>
-            Open dialog
-          </button>
-        </div>
-        <dialog
-          class="ds-dialog"
-          data-demo-dialog
-          aria-labelledby="demo-dialog-title"
-        >
-          <div class="ds-stack">
-            <h3 id="demo-dialog-title">Example dialog</h3>
-            <p>
-              Use a dialog only when the user must make a decision before
-              returning to the page.
-            </p>
-            <div class="ds-button-group">
-              <button
-                class="ds-button ds-button--secondary"
-                data-demo-dialog-close
-              >
-                Cancel</button
-              ><button
-                class="ds-button ds-button--primary"
-                data-demo-dialog-close
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        </dialog>
+        <div id="demo-overlays-root"></div>
       </section>
     </main>
-    <script type="module" src="/src/demo.ts"></script>
+    <script type="module" src="/src/demo.tsx"></script>
   </body>
 </html>

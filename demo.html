@@ -4,252 +4,287 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Betterbuy design system</title>
-    <link rel="stylesheet" href="/src/demo.css" />
+    <title>Betterbuy Tailwind catalog</title>
+    <link rel="stylesheet" href="/src/tailwind.css" />
   </head>
-  <body>
-    <main class="container demo-shell">
-      <header class="ds-page-header demo-header">
-        <div class="ds-stack">
-          <h1 class="demo-title">Betterbuy design system</h1>
-          <p>Reusable, dependency-free contracts for calm decision tools.</p>
+  <body class="min-w-80 bg-bb-page font-sans text-bb-navy">
+    <main class="mx-auto w-full max-w-5xl px-5 py-6 pb-10">
+      <header class="mb-5 flex items-start justify-between gap-3">
+        <div class="grid gap-3">
+          <h1 class="text-2xl font-bold tracking-[-0.035em]">
+            Betterbuy Tailwind catalog
+          </h1>
+          <p class="text-bb-text-muted">
+            Utility-first examples for calm, local decision tools.
+          </p>
         </div>
       </header>
 
-      <nav class="demo-nav" aria-label="Catalog sections">
-        <a href="#foundations">Foundations</a><a href="#structure">Structure</a
-        ><a href="#forms">Forms</a><a href="#feedback">Feedback</a
-        ><a href="#overlays">Overlays</a>
+      <nav
+        class="mb-6 flex flex-wrap gap-3 text-sm text-bb-text-muted"
+        aria-label="Catalog sections"
+      >
+        <a
+          class="underline-offset-2 hover:text-bb-navy hover:underline"
+          href="#foundations"
+          >Foundations</a
+        >
+        <a
+          class="underline-offset-2 hover:text-bb-navy hover:underline"
+          href="#structure"
+          >Structure</a
+        >
+        <a
+          class="underline-offset-2 hover:text-bb-navy hover:underline"
+          href="#forms"
+          >Forms</a
+        >
+        <a
+          class="underline-offset-2 hover:text-bb-navy hover:underline"
+          href="#feedback"
+          >Feedback</a
+        >
+        <a
+          class="underline-offset-2 hover:text-bb-navy hover:underline"
+          href="#overlays"
+          >Overlays</a
+        >
       </nav>
 
       <section
-        class="demo-section"
+        class="grid gap-3 border-t border-bb-border pt-6"
         id="foundations"
         aria-labelledby="foundations-title"
       >
-        <h2 id="foundations-title">Foundations</h2>
-        <p>Use semantic roles rather than raw values.</p>
-        <div class="row g-3 demo-grid">
-          <div class="col-12 col-sm-6 col-lg">
-            <div class="demo-swatch demo-swatch--page">
-              <div class="demo-swatch-color"></div>
-              <div class="demo-swatch-label">Page</div>
-            </div>
+        <h2 id="foundations-title" class="text-[1.05rem] font-bold">
+          Foundations
+        </h2>
+        <p class="text-bb-text-muted">
+          Use the Betterbuy Tailwind theme utilities instead of raw values.
+        </p>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div class="overflow-hidden rounded-bb-lg border border-bb-border">
+            <div class="h-12 bg-bb-page"></div>
+            <div class="bg-bb-surface p-2 text-sm">Page</div>
           </div>
-          <div class="col-12 col-sm-6 col-lg">
-            <div class="demo-swatch demo-swatch--surface">
-              <div class="demo-swatch-color"></div>
-              <div class="demo-swatch-label">Surface</div>
-            </div>
+          <div class="overflow-hidden rounded-bb-lg border border-bb-border">
+            <div class="h-12 bg-bb-surface"></div>
+            <div class="bg-bb-surface p-2 text-sm">Surface</div>
           </div>
-          <div class="col-12 col-sm-6 col-lg">
-            <div class="demo-swatch demo-swatch--primary">
-              <div class="demo-swatch-color"></div>
-              <div class="demo-swatch-label">Primary</div>
-            </div>
+          <div class="overflow-hidden rounded-bb-lg border border-bb-border">
+            <div class="h-12 bg-bb-navy"></div>
+            <div class="bg-bb-surface p-2 text-sm">Primary</div>
           </div>
-          <div class="col-12 col-sm-6 col-lg">
-            <div class="demo-swatch demo-swatch--warning">
-              <div class="demo-swatch-color"></div>
-              <div class="demo-swatch-label">Warning</div>
-            </div>
+          <div class="overflow-hidden rounded-bb-lg border border-bb-border">
+            <div class="h-12 bg-bb-warning-surface"></div>
+            <div class="bg-bb-surface p-2 text-sm">Warning</div>
           </div>
-          <div class="col-12 col-sm-6 col-lg">
-            <div class="demo-swatch demo-swatch--danger">
-              <div class="demo-swatch-color"></div>
-              <div class="demo-swatch-label">Danger</div>
-            </div>
+          <div class="overflow-hidden rounded-bb-lg border border-bb-border">
+            <div class="h-12 bg-bb-danger-surface"></div>
+            <div class="bg-bb-surface p-2 text-sm">Danger</div>
           </div>
         </div>
-        <div class="demo-foundation-examples">
+        <div class="grid gap-3">
           <p>
-            A <a class="ds-link" href="#forms">semantic link</a> and
-            <code class="ds-code">inline code</code>.
-          </p>
-          <div class="demo-code-example">
-            <span class="ds-text--muted">Button markup</span>
-            <pre
-              class="ds-code-block"
-            ><code>&lt;button class="ds-button ds-button--primary"&gt;</code></pre>
-          </div>
-          <hr class="ds-divider" />
-          <div class="ds-cluster">
-            <button class="ds-icon-button" aria-label="Settings">
-              <svg class="ds-icon" aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" />
-                <path
-                  d="M4.9 4.9l2.1 2.1m10 10 2.1 2.1m0-14.2L17 7m-10 10-2.1 2.1m14.2 0L17 17M7 7 4.9 4.9"
-                />
-              </svg></button
-            ><span class="ds-text--muted"
-              >Icon buttons always need an accessible name.</span
+            A
+            <a class="text-bb-navy underline underline-offset-2" href="#forms"
+              >semantic link</a
             >
-          </div>
+            and
+            <code
+              class="rounded-bb-sm border border-bb-border bg-bb-info-surface px-1 font-mono text-sm"
+              >inline code</code
+            >.
+          </p>
+          <pre
+            class="overflow-x-auto rounded-bb-lg border border-bb-border bg-bb-info-surface p-3 font-mono text-sm"
+          ><code>&lt;button class="rounded-bb-lg bg-bb-navy px-4 py-2 text-white"&gt;</code></pre>
         </div>
       </section>
 
       <section
-        class="demo-section"
+        class="mt-6 grid gap-3 border-t border-bb-border pt-6"
         id="structure"
         aria-labelledby="structure-title"
       >
-        <div class="ds-section-header">
-          <h2 id="structure-title">Structure and actions</h2>
-          <span class="ds-badge ds-badge--neutral">Core</span>
+        <div class="flex items-center justify-between gap-3">
+          <h2 id="structure-title" class="text-[1.05rem] font-bold">
+            Structure and actions
+          </h2>
+          <span
+            class="rounded-bb-sm bg-bb-info-surface px-2 py-1 text-sm font-bold text-bb-text-muted"
+            >Core</span
+          >
         </div>
-        <p>
-          Use Stack for vertical rhythm and Cluster for wrapping action groups.
+        <p class="text-bb-text-muted">
+          Use grid and flex utilities for spacing and responsive action groups.
         </p>
-        <article class="ds-surface ds-stack">
-          <div class="ds-section-header">
-            <h3>Section header</h3>
-            <span class="ds-badge ds-badge--success">Ready</span>
+        <article
+          class="grid gap-3 rounded-bb-xl border border-bb-border bg-bb-surface p-4"
+        >
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-bold">Section header</h3>
+            <span
+              class="rounded-bb-sm bg-bb-success-action-surface px-2 py-1 text-sm font-bold text-bb-success-action"
+              >Ready</span
+            >
           </div>
-          <p class="ds-text--muted">
+          <p class="text-bb-text-muted">
             A surface holds one related piece of content.
           </p>
-          <div class="ds-button-group">
-            <button class="ds-button ds-button--primary">Primary</button
-            ><button class="ds-button ds-button--secondary">Secondary</button
-            ><button class="ds-button ds-button--secondary" disabled>
+          <div class="flex flex-wrap gap-2">
+            <button
+              class="min-h-12 rounded-bb-lg bg-bb-navy px-4 py-2 font-bold text-white focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2"
+            >
+              Primary
+            </button>
+            <button
+              class="min-h-12 rounded-bb-lg border border-bb-border-input bg-bb-surface px-4 py-2 font-bold focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2"
+            >
+              Secondary
+            </button>
+            <button
+              class="min-h-12 rounded-bb-lg border border-bb-border-input bg-bb-surface px-4 py-2 font-bold disabled:cursor-not-allowed disabled:opacity-45"
+              disabled
+            >
               Disabled
             </button>
           </div>
         </article>
-        <div class="ds-empty-state">
-          <strong>Nothing saved yet</strong
-          ><span>Add a comparison to see it here.</span>
-        </div>
       </section>
 
-      <section class="demo-section" id="forms" aria-labelledby="forms-title">
-        <h2 id="forms-title">Forms and validation</h2>
-        <p>
+      <section
+        class="mt-6 grid gap-3 border-t border-bb-border pt-6"
+        id="forms"
+        aria-labelledby="forms-title"
+      >
+        <h2 id="forms-title" class="text-[1.05rem] font-bold">
+          Forms and validation
+        </h2>
+        <p class="text-bb-text-muted">
           Every control has a visible label; error text is programmatically
           connected.
         </p>
-        <div class="row g-3 demo-grid">
-          <div class="col-12 col-md-6">
-            <div class="ds-stack">
-              <label class="ds-label" for="demo-select"
-                >Unit<select class="ds-select" id="demo-select">
-                  <option>Per item</option>
-                  <option>Per pack</option>
-                </select></label
-              ><label class="ds-label" for="demo-notes"
-                >Notes<span class="ds-field-hint"
-                  >Optional, local-only note.</span
-                ><textarea class="ds-textarea" id="demo-notes"></textarea>
-              </label>
-            </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="grid gap-3">
+            <label class="grid gap-1 font-bold" for="demo-select"
+              >Unit<select
+                class="min-h-12 rounded-bb-md border border-bb-border-input bg-bb-surface p-3 font-normal focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2"
+                id="demo-select"
+              >
+                <option>Per item</option>
+                <option>Per pack</option>
+              </select></label
+            >
+            <label class="grid gap-1 font-bold" for="demo-notes"
+              >Notes<span class="text-sm font-normal text-bb-text-muted"
+                >Optional, local-only note.</span
+              ><textarea
+                class="min-h-24 resize-y rounded-bb-md border border-bb-border-input bg-bb-surface p-3 font-normal focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2"
+                id="demo-notes"
+              ></textarea>
+            </label>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="ds-stack">
-              <label class="ds-label" for="demo-cost"
-                >Cost<span class="ds-field-hint">Use a positive number.</span
+          <div class="grid gap-3">
+            <label class="grid gap-1 font-bold" for="demo-cost"
+              >Cost<span class="text-sm font-normal text-bb-text-muted"
+                >Use a positive number.</span
+              ><input
+                class="rounded-bb-md border border-bb-danger bg-bb-surface p-3 font-normal focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2"
+                id="demo-cost"
+                aria-describedby="demo-cost-error"
+                aria-invalid="true"
+              /><span
+                class="text-sm font-normal text-bb-danger"
+                id="demo-cost-error"
+                >Enter a valid cost.</span
+              ></label
+            >
+            <label class="flex min-h-12 items-center gap-2"
+              ><input class="accent-bb-navy" type="checkbox" /> Remember this
+              preference</label
+            >
+            <fieldset class="grid gap-2">
+              <legend class="mb-2 font-bold">Display</legend>
+              <label class="flex items-center gap-2"
                 ><input
-                  class="ds-input"
-                  id="demo-cost"
-                  aria-describedby="demo-cost-error"
-                  aria-invalid="true"
-                /><span class="ds-field-message" id="demo-cost-error"
-                  >Enter a valid cost.</span
-                ></label
-              ><label class="ds-label" for="demo-disabled"
-                >Unavailable field<input
-                  class="ds-input"
-                  id="demo-disabled"
-                  disabled
-                  value="Unavailable" /></label
-              ><label class="ds-check"
-                ><input type="checkbox" /> Remember this preference</label
+                  class="accent-bb-navy"
+                  name="display"
+                  type="radio"
+                  checked
+                />
+                Compact</label
+              ><label class="flex items-center gap-2"
+                ><input class="accent-bb-navy" name="display" type="radio" />
+                Detailed</label
               >
-              <label class="ds-check"
-                ><input type="checkbox" disabled /> Disabled preference</label
-              >
-              <fieldset class="ds-radio-group">
-                <legend>Display</legend>
-                <label class="ds-radio"
-                  ><input name="display" type="radio" checked /> Compact</label
-                ><label class="ds-radio"
-                  ><input name="display" type="radio" /> Detailed</label
-                ><label class="ds-radio"
-                  ><input name="display" type="radio" disabled />
-                  Unavailable</label
-                >
-              </fieldset>
-              <label class="ds-switch"
-                ><input type="checkbox" /><span
-                  class="ds-switch__control"
-                  aria-hidden="true"
-                ></span>
-                Enable reminders</label
-              >
-              <label class="ds-switch"
-                ><input type="checkbox" disabled /><span
-                  class="ds-switch__control"
-                  aria-hidden="true"
-                ></span>
-                Disabled reminders</label
-              >
-            </div>
+            </fieldset>
           </div>
         </div>
       </section>
 
       <section
-        class="demo-section"
+        class="mt-6 grid gap-3 border-t border-bb-border pt-6"
         id="feedback"
         aria-labelledby="feedback-title"
       >
-        <h2 id="feedback-title">Feedback and loading</h2>
-        <div class="row g-3 demo-grid">
-          <div class="col-12 col-md-6">
-            <div class="ds-stack">
-              <div class="ds-alert">
-                <strong>Guidance</strong
-                ><span>Enter positive values to compare.</span>
-              </div>
-              <div class="ds-alert ds-alert--success">
-                <strong>Saved locally</strong
-                ><span>Your comparison is ready to restore.</span>
-              </div>
-              <div class="ds-alert ds-alert--info">
-                <strong>Information</strong
-                ><span>Results are calculated on this device.</span>
-              </div>
-              <div class="ds-alert ds-alert--warning">
-                <strong>Check the values</strong
-                ><span>One value may need attention.</span>
-              </div>
-              <div class="ds-alert ds-alert--danger">
-                <strong>Could not save</strong
-                ><span>Try again after checking your browser storage.</span>
-              </div>
+        <h2 id="feedback-title" class="text-[1.05rem] font-bold">
+          Feedback and loading
+        </h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="grid gap-3">
+            <div
+              class="grid gap-1 rounded-bb-xl bg-bb-info-surface p-3 text-bb-text-muted"
+            >
+              <strong>Guidance</strong
+              ><span>Enter positive values to compare.</span>
+            </div>
+            <div
+              class="grid gap-1 rounded-bb-xl bg-bb-success-surface p-3 text-bb-success"
+            >
+              <strong>Saved locally</strong
+              ><span>Your comparison is ready to restore.</span>
+            </div>
+            <div
+              class="grid gap-1 rounded-bb-xl border border-bb-warning-border bg-bb-warning-surface p-3 text-bb-warning"
+            >
+              <strong>Check the values</strong
+              ><span>One value may need attention.</span>
+            </div>
+            <div
+              class="grid gap-1 rounded-bb-xl bg-bb-danger-surface p-3 text-bb-danger"
+            >
+              <strong>Could not save</strong
+              ><span>Try again after checking your browser storage.</span>
             </div>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="ds-stack">
-              <div class="ds-inline">
-                <span class="ds-spinner" aria-hidden="true"></span
-                ><span>Loading comparison</span>
-              </div>
-              <div class="ds-stack" aria-label="Loading content">
-                <span class="ds-skeleton"></span
-                ><span class="ds-skeleton demo-skeleton-short"></span>
-              </div>
+          <div class="grid content-start gap-3">
+            <div class="flex items-center gap-2">
+              <span
+                class="size-6 animate-spin rounded-full border-[3px] border-bb-border-strong border-r-bb-navy motion-reduce:animate-none"
+                aria-hidden="true"
+              ></span
+              ><span>Loading comparison</span>
+            </div>
+            <div class="grid gap-3" aria-label="Loading content">
+              <span
+                class="h-4 animate-pulse rounded-bb-sm bg-bb-border motion-reduce:animate-none"
+              ></span
+              ><span
+                class="h-4 w-3/5 animate-pulse rounded-bb-sm bg-bb-border motion-reduce:animate-none"
+              ></span>
             </div>
           </div>
         </div>
       </section>
 
       <section
-        class="demo-section"
+        class="mt-6 grid gap-3 border-t border-bb-border pt-6"
         id="overlays"
         aria-labelledby="overlays-title"
       >
-        <h2 id="overlays-title">Overlays</h2>
-        <p>
+        <h2 id="overlays-title" class="text-[1.05rem] font-bold">Overlays</h2>
+        <p class="text-bb-text-muted">
           Tooltips supplement visible labels; overlays are catalog-only until a
           product flow needs one.
         </p>

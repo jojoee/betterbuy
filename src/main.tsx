@@ -1,6 +1,6 @@
 import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import "./style.css";
+import "./tailwind.css";
 import { compare, formatNumber, type ComparisonInput } from "./calculator";
 import { PIN_LIMIT, type HistoryEntry } from "./history";
 import {
@@ -13,6 +13,10 @@ import {
 } from "./store";
 
 const baseUrl = import.meta.env.BASE_URL;
+const focus =
+  "focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2";
+const button =
+  "inline-flex min-h-12 items-center justify-center rounded-bb-lg px-4 py-2 font-bold disabled:cursor-not-allowed disabled:opacity-45";
 
 function displayValue(value: number): string {
   return Number.isFinite(value) ? String(value) : "";
@@ -22,7 +26,10 @@ function ComparisonResult({ values }: { values: ComparisonInput }) {
   const result = compare(values);
   if (!result)
     return (
-      <p className="ds-alert result-placeholder" aria-live="polite">
+      <p
+        className="mt-4 grid min-h-17 gap-1 rounded-bb-xl bg-bb-info-surface p-3 text-bb-text-muted"
+        aria-live="polite"
+      >
         Enter positive Cost and Size values to compare.
       </p>
     );
@@ -31,11 +38,15 @@ function ComparisonResult({ values }: { values: ComparisonInput }) {
     : "A and B cost the same per size";
   return (
     <div
-      className={`ds-alert result${result.winner ? " ds-alert--success" : ""}`}
+      className={`mt-4 grid min-h-17 gap-1 rounded-bb-xl p-3 ${
+        result.winner
+          ? "bg-bb-success-surface text-bb-success"
+          : "bg-bb-info-surface text-bb-text-muted"
+      }`}
       aria-live="polite"
     >
-      <strong>{headline}</strong>
-      <span>
+      <strong className="text-lg">{headline}</strong>
+      <span className="text-sm">
         A: {formatNumber(result.unitCostA)} per size · B:{" "}
         {formatNumber(result.unitCostB)} per size
       </span>
@@ -49,10 +60,10 @@ function ComparisonForm() {
   const field = (option: "A" | "B", kind: "Cost" | "Size") => {
     const key = `${kind.toLowerCase()}${option}` as keyof ComparisonInput;
     return (
-      <label className="ds-field">
+      <label className="mt-2 grid grid-cols-[3.375rem_1fr] items-center gap-2 text-bb-text-muted">
         <span>{kind}</span>
         <input
-          className="ds-input"
+          className={`min-w-0 w-full rounded-bb-md border border-bb-border-input bg-bb-surface p-3 font-semibold text-bb-navy transition-[background-color,border-color,color,box-shadow] focus:border-bb-focus disabled:cursor-not-allowed disabled:bg-bb-info-surface disabled:text-bb-text-subtle motion-reduce:transition-none ${focus}`}
           data-key={key}
           aria-label={`${option} ${kind}`}
           type="number"
@@ -73,30 +84,29 @@ function ComparisonForm() {
     );
   };
   return (
-    <section className="ds-card calculator" aria-labelledby="compare-title">
-      <div className="ds-section-header">
-        <h2 id="compare-title">Compare by cost per size</h2>
-      </div>
-      <div className="row g-3 options">
-        <div className="col-12 col-sm-6">
-          <fieldset className="ds-fieldset">
-            <legend>Option A</legend>
-            {field("A", "Cost")}
-            {field("A", "Size")}
-          </fieldset>
-        </div>
-        <div className="col-12 col-sm-6">
-          <fieldset className="ds-fieldset">
-            <legend>Option B</legend>
-            {field("B", "Cost")}
-            {field("B", "Size")}
-          </fieldset>
-        </div>
+    <section
+      className="rounded-bb-2xl border border-bb-border bg-bb-surface p-5 shadow-bb-card"
+      aria-labelledby="compare-title"
+    >
+      <h2 id="compare-title" className="text-[1.05rem] font-bold">
+        Compare by cost per size
+      </h2>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <fieldset className="m-0 rounded-bb-xl border border-bb-border-strong p-3 focus-within:border-bb-focus">
+          <legend className="px-2 font-bold">Option A</legend>
+          {field("A", "Cost")}
+          {field("A", "Size")}
+        </fieldset>
+        <fieldset className="m-0 rounded-bb-xl border border-bb-border-strong p-3 focus-within:border-bb-focus">
+          <legend className="px-2 font-bold">Option B</legend>
+          {field("B", "Cost")}
+          {field("B", "Size")}
+        </fieldset>
       </div>
       <ComparisonResult values={values} />
       <button
         id="save"
-        className="ds-button ds-button--primary ds-button--block save"
+        className={`${button} ${focus} mt-4 w-full bg-bb-navy text-white transition-colors hover:bg-bb-navy-hover motion-reduce:transition-none`}
         disabled={!valid}
         onClick={saveCurrentComparison}
       >
@@ -118,9 +128,12 @@ function HistoryItem({
     ? `${entry.result.winner} is ${formatNumber(entry.result.savingPercent, 1)}% cheaper`
     : "Same cost per size";
   return (
-    <li className="ds-list-item" data-history-id={entry.id}>
+    <li
+      className="flex items-stretch gap-2 rounded-bb-lg border border-bb-border p-1"
+      data-history-id={entry.id}
+    >
       <button
-        className="ds-list-item__restore history-restore"
+        className={`min-h-11 min-w-0 flex-1 bg-transparent px-3 py-2 text-left text-bb-navy ${focus}`}
         data-restore={entry.id}
         aria-label="Restore saved comparison"
         onClick={() => {
@@ -128,16 +141,18 @@ function HistoryItem({
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
-        <span>
+        <span className="block overflow-hidden text-ellipsis whitespace-nowrap">
           A {formatNumber(entry.input.costA)} /{" "}
           {formatNumber(entry.input.sizeA)} · B{" "}
           {formatNumber(entry.input.costB)} / {formatNumber(entry.input.sizeB)}
         </span>
-        <small>{winner}</small>
+        <small className="mt-[0.1875rem] block overflow-hidden text-ellipsis whitespace-nowrap text-bb-success-action">
+          {winner}
+        </small>
       </button>
-      <div className="ds-list-item__actions">
+      <div className="grid grid-cols-2 gap-1">
         <button
-          className="ds-button ds-button--subtle-success"
+          className={`${button} ${focus} bg-bb-success-action-surface text-bb-success-action`}
           data-pin={entry.id}
           aria-label={`${isPinned ? "Unpin" : "Pin"} saved comparison`}
           disabled={!isPinned && pinLimitReached}
@@ -151,7 +166,7 @@ function HistoryItem({
           {isPinned ? "Unpin" : "Pin"}
         </button>
         <button
-          className="ds-button ds-button--subtle-danger"
+          className={`${button} ${focus} bg-bb-danger-surface text-bb-danger`}
           data-delete={entry.id}
           aria-label="Delete saved comparison"
           onClick={() => deleteHistoryEntry(entry.id)}
@@ -173,27 +188,33 @@ function HistorySection() {
   const visible = expanded ? unpinned : unpinned.slice(0, 3);
   const pinLimitReached = pinned.length >= PIN_LIMIT;
   return (
-    <section className="ds-card history" aria-labelledby="history-title">
-      <div className="ds-section-header history-title">
-        <h2 id="history-title">History</h2>
-        <span id="history-count" className="ds-badge ds-badge--neutral">
+    <section
+      className="mt-4 rounded-bb-2xl border border-bb-border bg-bb-surface p-5 shadow-bb-card"
+      aria-labelledby="history-title"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h2 id="history-title" className="text-[1.05rem] font-bold">
+          History
+        </h2>
+        <span
+          id="history-count"
+          className="inline-flex rounded-bb-sm bg-bb-info-surface px-2 py-1 text-sm font-bold text-bb-text-muted"
+        >
           {history.length}/50
         </span>
       </div>
       <div id="history-content">
         {!history.length ? (
-          <p className="ds-empty-state empty-history">
+          <p className="mt-2 grid gap-2 py-4 text-center text-bb-text-muted">
             No saved comparisons yet.
           </p>
         ) : (
           <>
             {pinned.length > 0 && (
-              <section className="history-group">
-                <div className="history-group-title">
-                  <h3>Pinned ({pinned.length})</h3>
-                </div>
+              <section className="mt-4">
+                <h3 className="font-bold">Pinned ({pinned.length})</h3>
                 <ul
-                  className="ds-list history-list"
+                  className="mt-2 grid list-none gap-2 p-0"
                   data-history-group="pinned"
                 >
                   {pinned.map((entry) => (
@@ -207,13 +228,16 @@ function HistorySection() {
               </section>
             )}
             {pinLimitReached && (
-              <p id="pin-limit" className="pin-limit">
+              <p
+                id="pin-limit"
+                className="mt-3 text-[0.82rem] text-bb-text-subtle"
+              >
                 Unpin a saved comparison to pin another.
               </p>
             )}
             {visible.length > 0 && (
               <ul
-                className="ds-list history-list"
+                className="mt-2 grid list-none gap-2 p-0"
                 data-history-group="unpinned"
               >
                 {visible.map((entry) => (
@@ -228,7 +252,7 @@ function HistorySection() {
             {unpinned.length > 3 && (
               <button
                 id="show-more-history"
-                className="ds-button ds-button--secondary ds-button--block show-more"
+                className={`${button} ${focus} mt-4 w-full border border-bb-border-input bg-bb-surface text-bb-navy transition-colors hover:border-bb-focus motion-reduce:transition-none`}
                 onClick={() => dispatch({ type: "history/toggleExpanded" })}
               >
                 {expanded ? "Show less" : "Show more"}
@@ -249,17 +273,26 @@ export function App() {
       );
   }, []);
   return (
-    <main className="container app-shell">
-      <header className="ds-page-header">
-        <div className="ds-page-header__identity">
-          <img src={`${baseUrl}icons/betterbuy-overlap.svg`} alt="" />
-          <h1>
-            Betterbuy <span>· Find the better deal</span>
-          </h1>
-        </div>
-      </header>
-      <ComparisonForm />
-      <HistorySection />
+    <main className="min-h-screen min-w-80 bg-bb-page px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-[calc(2.5rem+env(safe-area-inset-bottom))] font-sans text-bb-navy">
+      <div className="mx-auto w-full max-w-[38.75rem]">
+        <header className="mb-4 flex min-h-11 items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <img
+              className="size-10 rounded-bb-lg"
+              src={`${baseUrl}icons/betterbuy-overlap.svg`}
+              alt=""
+            />
+            <h1 className="text-xl font-bold tracking-[-0.025em]">
+              Betterbuy{" "}
+              <span className="text-sm font-medium tracking-normal text-bb-text-muted">
+                · Find the better deal
+              </span>
+            </h1>
+          </div>
+        </header>
+        <ComparisonForm />
+        <HistorySection />
+      </div>
     </main>
   );
 }

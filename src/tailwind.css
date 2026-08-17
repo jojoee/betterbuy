@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bb-page: #f5f8fa;
+  --color-bb-surface: #ffffff;
+  --color-bb-navy: #102a43;
+  --color-bb-navy-hover: #243b53;
+  --color-bb-text-muted: #486581;
+  --color-bb-text-subtle: #627d98;
+  --color-bb-border: #d9e2ec;
+  --color-bb-border-strong: #bcccdc;
+  --color-bb-border-input: #9fb3c8;
+  --color-bb-focus: #159947;
+  --color-bb-focus-ring: #9ef0c0;
+  --color-bb-success: #075e2e;
+  --color-bb-success-action: #0b6b36;
+  --color-bb-success-surface: #dcfce7;
+  --color-bb-success-action-surface: #e6f9ed;
+  --color-bb-danger: #b42318;
+  --color-bb-danger-surface: #fff0ef;
+  --color-bb-info: #243b53;
+  --color-bb-info-surface: #f0f4f8;
+  --color-bb-warning: #7a4a00;
+  --color-bb-warning-surface: #fff8e6;
+  --color-bb-warning-border: #f0cf73;
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --radius-bb-sm: 0.5rem;
+  --radius-bb-md: 0.625rem;
+  --radius-bb-lg: 0.75rem;
+  --radius-bb-xl: 0.875rem;
+  --radius-bb-2xl: 1.25rem;
+  --shadow-bb-card: 0 0.5rem 1.5rem rgb(16 42 67 / 6%);
+}

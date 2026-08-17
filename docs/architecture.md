@@ -1,7 +1,8 @@
 # React architecture
 
 Betterbuy is a single-page React application. It has no router, remote data,
-accounts, analytics, or Tailwind dependency.
+accounts, analytics, or remote dependencies. Tailwind CSS is a build-time
+styling dependency only; it does not add runtime data flows.
 
 ## Ownership
 

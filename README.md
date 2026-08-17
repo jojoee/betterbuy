@@ -28,9 +28,8 @@ in-memory state; rewinding does not modify saved browser history.
 
 ## Design system preview
 
-The calculator uses the shared production CSS design system. While the dev
-server is running, open `/demo.html` to view its local component catalog. The
-catalog and calculator use locally bundled Bootstrap Grid for layout only.
+The calculator uses Tailwind CSS with Betterbuy theme utilities. While the dev
+server is running, open `/demo.html` to view its local Tailwind catalog.
 
 ## Checks
 

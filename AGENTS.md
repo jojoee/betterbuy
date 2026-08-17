@@ -15,7 +15,8 @@
 - `src/main.ts`: DOM rendering, user interactions, and service-worker setup.
 - `src/tailwind.css`: Tailwind v4 entry stylesheet and Betterbuy theme tokens.
 - `src/main.tsx`: calculator composition with Tailwind utilities.
-- `src/demo.tsx` and `demo.html`: local Tailwind utility catalog only.
+- `src/**/*.stories.tsx`: Storybook catalog, component states, and interaction tests.
+- `.storybook/`: Storybook preview, accessibility, and Vitest browser-test configuration.
 - `docs/design-system.md`: design-system usage guidance.
 - `tests/`: Vitest coverage for calculation, persistence, and browser flows.
 

@@ -37,7 +37,19 @@ directly in JSX or HTML; do not recreate a `ds-*` component-class layer.
 - Overlays: use native `<dialog>` for blocking decisions and keep tooltips
   supplemental to visible labels.
 
-## Preview
+## Storybook catalog
 
-Run `npm run dev`, then open `/demo.html` to inspect the local Tailwind catalog.
-The calculator uses the same theme utilities in production.
+Run `npm run storybook` to inspect the catalog and product component states.
+Stories are the source of truth for the catalog; their `play` functions are
+browser-backed component tests, run with `npm run test:storybook`. The
+calculator uses the same theme utilities in production.
+
+## Product components
+
+`ComparisonForm` documents invalid input, either winning offer, equal unit
+cost, and completion/save interaction. It keeps native labels, a live result,
+and a disabled save action until all values are valid.
+
+`HistorySection` documents empty, saved, expanded, and pin-limit states. It
+keeps restore, pin, unpin, and delete actions keyboard accessible; the pin-limit
+message uses the standard muted text token for accessible contrast.

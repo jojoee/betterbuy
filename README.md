@@ -26,10 +26,15 @@ The app uses React with a small Zustand reducer store. See
 [Zustand DevTools time travel](docs/zustand-devtools.md) for the development
 debugging workflow and its persistence boundaries.
 
-## Design system preview
+## Storybook
 
-The calculator uses Tailwind CSS with Betterbuy theme utilities. While the dev
-server is running, open `/demo.html` to view its local Tailwind catalog.
+The calculator uses Tailwind CSS with Betterbuy theme utilities. Use Storybook
+to review documented component states and run their interaction tests.
+
+```sh
+npm run storybook
+npm run test:storybook
+```
 
 ## Checks
 

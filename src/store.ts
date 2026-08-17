@@ -93,32 +93,45 @@ const initialState: BetterbuyState = {
   isHistoryExpanded: false,
 };
 
-export const betterbuyStore = createStore(
-  devtools(redux(betterbuyReducer, initialState), {
-    enabled: import.meta.env.DEV,
-    name: "Betterbuy",
-  }),
-);
-
-export function useBetterbuyStore<T>(
-  selector: (state: BetterbuyState) => T,
-): T {
-  return useStore(betterbuyStore, selector);
+export function createBetterbuyStore(overrides: Partial<BetterbuyState> = {}) {
+  const state: BetterbuyState = {
+    values: { ...initialState.values, ...overrides.values },
+    history: [...(overrides.history ?? initialState.history)],
+    isHistoryExpanded:
+      overrides.isHistoryExpanded ?? initialState.isHistoryExpanded,
+  };
+  return createStore(
+    devtools(redux(betterbuyReducer, state), {
+      enabled: import.meta.env.DEV,
+      name: "Betterbuy",
+    }),
+  );
 }
 
-export function dispatch(action: BetterbuyAction): void {
-  betterbuyStore.dispatch(action);
+export type BetterbuyStore = ReturnType<typeof createBetterbuyStore>;
+
+export const betterbuyStore = createBetterbuyStore();
+
+function dispatchTo(store: BetterbuyStore, action: BetterbuyAction): void {
+  store.dispatch(action);
 }
 
-function persistHistory(): void {
-  writeHistory(betterbuyStore.getState().history);
+export function dispatch(
+  action: BetterbuyAction,
+  store = betterbuyStore,
+): void {
+  dispatchTo(store, action);
 }
 
-export function saveCurrentComparison(): void {
-  const values = betterbuyStore.getState().values;
+function persistHistory(store: BetterbuyStore): void {
+  writeHistory(store.getState().history);
+}
+
+export function saveCurrentComparison(store = betterbuyStore): void {
+  const values = store.getState().values;
   const result = compare(values);
   if (!result) return;
-  dispatch({
+  dispatchTo(store, {
     type: "history/save",
     entry: {
       id: crypto.randomUUID(),
@@ -127,20 +140,31 @@ export function saveCurrentComparison(): void {
       savedAt: new Date().toISOString(),
     },
   });
-  persistHistory();
+  persistHistory(store);
 }
 
-export function pinHistoryEntry(id: string): void {
-  dispatch({ type: "history/pin", id, pinnedAt: new Date().toISOString() });
-  persistHistory();
+export function pinHistoryEntry(id: string, store = betterbuyStore): void {
+  dispatchTo(store, {
+    type: "history/pin",
+    id,
+    pinnedAt: new Date().toISOString(),
+  });
+  persistHistory(store);
 }
 
-export function unpinHistoryEntry(id: string): void {
-  dispatch({ type: "history/unpin", id });
-  persistHistory();
+export function unpinHistoryEntry(id: string, store = betterbuyStore): void {
+  dispatchTo(store, { type: "history/unpin", id });
+  persistHistory(store);
 }
 
-export function deleteHistoryEntry(id: string): void {
-  dispatch({ type: "history/delete", id });
-  persistHistory();
+export function deleteHistoryEntry(id: string, store = betterbuyStore): void {
+  dispatchTo(store, { type: "history/delete", id });
+  persistHistory(store);
+}
+
+export function useBetterbuyStore<T>(
+  selector: (state: BetterbuyState) => T,
+  store = betterbuyStore,
+): T {
+  return useStore(store, selector);
 }

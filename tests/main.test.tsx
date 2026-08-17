@@ -5,6 +5,15 @@ import userEvent from "@testing-library/user-event";
 import { App } from "../src/main";
 import { betterbuyStore } from "../src/store";
 
+const pwa = vi.hoisted(() => ({
+  updateServiceWorker: vi.fn(),
+  useRegisterSW: vi.fn(),
+}));
+
+vi.mock("virtual:pwa-register/react", () => ({
+  useRegisterSW: pwa.useRegisterSW,
+}));
+
 const emptyState = {
   values: {
     costA: Number.NaN,
@@ -22,6 +31,12 @@ describe("React app", () => {
     betterbuyStore.setState(emptyState);
     vi.stubGlobal("crypto", { randomUUID: vi.fn(() => "saved-entry") });
     vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    pwa.updateServiceWorker.mockResolvedValue(undefined);
+    pwa.useRegisterSW.mockReturnValue({
+      needRefresh: [false, vi.fn()],
+      offlineReady: [false, vi.fn()],
+      updateServiceWorker: pwa.updateServiceWorker,
+    });
   });
 
   afterEach(() => {
@@ -95,5 +110,24 @@ describe("React app", () => {
     fireEvent.change(input, { target: { value: "23", valueAsNumber: 23 } });
     expect(input).toHaveFocus();
     expect(input).toHaveValue(23);
+  });
+
+  it("offers a waiting update without reloading until the user chooses it", async () => {
+    const user = userEvent.setup();
+    pwa.useRegisterSW.mockReturnValue({
+      needRefresh: [true, vi.fn()],
+      offlineReady: [false, vi.fn()],
+      updateServiceWorker: pwa.updateServiceWorker,
+    });
+
+    render(<App />);
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "A new version of Betterbuy is ready.",
+    );
+    expect(pwa.updateServiceWorker).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole("button", { name: "Update now" }));
+    expect(pwa.updateServiceWorker).toHaveBeenCalledWith(true);
   });
 });

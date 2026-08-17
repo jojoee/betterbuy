@@ -46,6 +46,19 @@ npm run build
 npm run test:e2e
 ```
 
+## PWA updates
+
+Betterbuy uses `vite-plugin-pwa` to generate a revisioned service worker from
+Vite's final hashed HTML, JavaScript, CSS, and install assets. This keeps the
+cached HTML shell and its referenced assets version-matched after a deployment,
+instead of leaving installed users on a static service worker that does not
+change with ordinary application builds.
+
+The PWA manifest and service-worker generation are configured in Vite; React
+handles runtime registration and the update UI. Updates download in the
+background and apply only after the user selects **Update now**, so a draft
+comparison is not interrupted.
+
 ## Privacy and saved comparisons
 
 Enter offers using comparable sizes—Betterbuy does not convert units or collect data. Saved comparisons stay in local browser storage, can be restored, pinned or unpinned (up to 5 pins), or deleted, and are capped at 50 entries.

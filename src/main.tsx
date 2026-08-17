@@ -1,5 +1,6 @@
-import { StrictMode, useEffect } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { useRegisterSW } from "virtual:pwa-register/react";
 import "./tailwind.css";
 import { ComparisonForm } from "./components/comparison";
 import { HistorySection } from "./components/history";
@@ -21,12 +22,7 @@ export function App({ store = betterbuyStore }: { store?: BetterbuyStore }) {
   const history = useBetterbuyStore((state) => state.history, store);
   const expanded = useBetterbuyStore((state) => state.isHistoryExpanded, store);
 
-  useEffect(() => {
-    if ("serviceWorker" in navigator)
-      window.addEventListener("load", () =>
-        navigator.serviceWorker.register(`${baseUrl}sw.js`),
-      );
-  }, []);
+  const { needRefresh, updateServiceWorker } = useRegisterSW();
 
   return (
     <main className="min-h-screen min-w-80 bg-bb-page px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-[calc(2.5rem+env(safe-area-inset-bottom))] font-sans text-bb-navy">
@@ -46,6 +42,23 @@ export function App({ store = betterbuyStore }: { store?: BetterbuyStore }) {
             </h1>
           </div>
         </header>
+        {needRefresh[0] && (
+          <aside
+            className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-bb-xl border border-bb-warning-border bg-bb-warning-surface p-3 text-bb-warning"
+            role="status"
+          >
+            <p className="text-sm font-medium">
+              A new version of Betterbuy is ready.
+            </p>
+            <button
+              className="min-h-11 rounded-bb-lg bg-bb-navy px-4 py-2 font-bold text-white transition-colors hover:bg-bb-navy-hover focus-visible:outline-[3px] focus-visible:outline-bb-focus-ring focus-visible:outline-offset-2 motion-reduce:transition-none"
+              onClick={() => void updateServiceWorker(true)}
+              type="button"
+            >
+              Update now
+            </button>
+          </aside>
+        )}
         <ComparisonForm
           values={values}
           onSetField={(field, value) =>

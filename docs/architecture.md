@@ -24,10 +24,9 @@ resulting snapshot to localStorage.
 ## Debugging
 
 Development builds enable Zustand's Redux DevTools middleware. It records
-named actions such as `history/save` and `history/pin`, so developers can
-inspect and rewind in-memory application state. Rewinding is never persisted
-and does not replay ID generation, timestamps, service-worker work, or browser
-storage writes.
+named actions such as `history/save` and `history/pin`. See the
+[Zustand DevTools time-travel guide](zustand-devtools.md) for the workflow and
+the localStorage boundary.
 
 Zustand was chosen over Context/reducer because the app explicitly requires
 Redux-DevTools-style action history. Redux Toolkit would also provide that

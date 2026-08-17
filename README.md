@@ -22,9 +22,9 @@ npm install
 npm run dev
 ```
 
-The app uses React with a small Zustand reducer store. Development builds name
-each state action in Redux DevTools so developers can inspect and rewind
-in-memory state; rewinding does not modify saved browser history.
+The app uses React with a small Zustand reducer store. See
+[Zustand DevTools time travel](docs/zustand-devtools.md) for the development
+debugging workflow and its persistence boundaries.
 
 ## Design system preview
 
